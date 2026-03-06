@@ -1,0 +1,66 @@
+---
+title: "Filarys — Agri-food Supply Chain Platform"
+excerpt: "Vertical software ecosystem for the Italian agri-food sector, covering the full supply chain from primary production to retail distribution. Designed around regulatory compliance, traceability, and precision agriculture."
+tags: [".NET 9", "PostgreSQL", "PostGIS", "CQRS", "Clean Architecture", "Blockchain", "IoT", "GIS"]
+status: "in-progress"
+confidential: true
+date: "2025-12-01"
+---
+
+## Problem space
+
+The Italian agri-food industry is fragmented across dozens of disconnected software tools: farm management software, logistics platforms, ERP systems, quality-control dashboards, and compliance registries rarely talk to each other. Producers, cooperatives, logistics operators, and distributors each operate in their own silo, making end-to-end traceability nearly impossible and EU regulatory compliance a manual, error-prone process.
+
+Filarys is designed to replace this fragmentation with a single, modular platform that covers the entire supply chain — from field to shelf — with a shared data model, real-time event flow, and built-in compliance logic.
+
+## Target users
+
+- **Primary producers** (farms, cooperatives) — field management, input tracking, yield recording
+- **Logistics operators** — transport scheduling, cold chain monitoring, delivery confirmation
+- **Processors and packagers** — lot tracking, quality control, transformation records
+- **Distributors and retailers** — order management, shelf traceability, recall handling
+- **Regulatory bodies** — audit-ready reports, immutable traceability records
+
+## Architecture
+
+The platform is built on a **Clean Architecture + CQRS** foundation using .NET 9 and MediatR. Every business operation is modelled as an explicit command or query, keeping domain logic fully decoupled from infrastructure concerns.
+
+**Multi-tenancy** is implemented with a database-per-tenant strategy on PostgreSQL. Each tenant (e.g. a cooperative or a logistics company) gets an isolated schema, ensuring data segregation at the database level while sharing a single application layer.
+
+**Geospatial data** (field boundaries, transport routes, warehouse locations) is stored natively in PostgreSQL using the PostGIS extension. Field polygons are queryable by area, overlap, and proximity, enabling zone-based alerts and precision agriculture analytics.
+
+**IoT integration** uses an offline-first event bus (RabbitMQ / Kafka) to ingest telemetry from farm equipment, cold chain sensors, and weighing systems — even in low-connectivity rural environments. Events are buffered locally and synced when connectivity is restored.
+
+**Blockchain notarisation** creates immutable, timestamped anchors for critical supply chain events (harvest records, lot transfers, quality certifications) using a permissioned ledger. This provides a tamper-evident audit trail without requiring full on-chain storage of all data.
+
+## Modules
+
+| Module | Scope |
+|---|---|
+| **Field management** | Parcel registry with GIS boundaries, crop rotation history, input (fertiliser, pesticide) tracking per parcel |
+| **Compliance** | PAC (Common Agricultural Policy) subsidy eligibility, PSR rural development programme rules, Nitrati directive zone monitoring — all enforced at data entry |
+| **Traceability** | Lot lifecycle from harvest through processing, packaging and delivery; blockchain anchors at each handoff point |
+| **GIS / Remote sensing** | NDVI vegetation index computation from satellite imagery; anomaly detection for drought, disease, and frost stress |
+| **Machinery telemetry** | ISOBUS / ISOXML integration for real-time data from tractors and implements; fuel consumption, work area, and operation logs |
+| **Cold chain** | Temperature and humidity monitoring across transport legs; automatic alert escalation on threshold breach |
+| **Carbon farming** | CO₂ sequestration estimation per production cycle; carbon credit registry and footprint reporting per product lot |
+| **Audit & reporting** | Pre-built report templates for EU and Italian national authorities; exportable in PDF and XML formats |
+
+## Project management approach
+
+Filarys is being developed as a solo project with a structured, documentation-first methodology:
+
+1. **Domain modelling** — the entire bounded context map, aggregate design, and ubiquitous language are documented before any code is written. This reduces costly refactors during implementation.
+2. **Legal and regulatory review** — Italian agricultural law (D.Lgs. 99/2004, EU Regulation 2018/848), GDPR data residency requirements, and blockchain evidentiary admissibility are reviewed before the data model is finalised.
+3. **Test design upfront** — acceptance criteria and integration test scenarios are written alongside the specification, not after implementation.
+4. **Incremental module delivery** — modules are prioritised by dependency order. Field management and compliance ship first; traceability and IoT follow once the core domain is stable.
+
+## Current status
+
+Core architecture, bounded context map, and the primary domain model are fully defined and documented. The platform is currently in:
+
+- **Legal review** — data residency and blockchain evidentiary requirements under Italian and EU law
+- **Test design** — writing acceptance and integration test suites ahead of implementation
+- **Regulatory mapping** — translating PAC and PSR rule sets into enforceable domain invariants
+
+Active development resumes once the review phase is complete.

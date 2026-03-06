@@ -1,0 +1,93 @@
+---
+title: "Cross-platform Consumer Product"
+excerpt: "End-to-end consumer product developed independently across all layers — .NET 9 backend, native Android and iOS clients, and a Blazor admin panel. Name and domain withheld pending release."
+tags: ["C#", ".NET 9", "Android", "iOS", "Blazor", "SignalR", "Clean Architecture", "GDPR"]
+status: "in-progress"
+confidential: true
+featured: true
+date: "2025-07-01"
+---
+
+## Context
+
+A consumer-facing product conceived, designed, and built entirely by me — from initial domain modelling to production-ready infrastructure. The product targets a real user need in a competitive vertical; the name and domain are withheld until public release.
+
+Being the sole developer across all layers means every architectural decision has a direct cost: over-engineering a subsystem wastes weeks; under-engineering it produces technical debt that stalls feature delivery. The design philosophy throughout is **just enough abstraction** — enough to evolve independently, not enough to become a maintenance burden.
+
+## Backend — .NET 9
+
+The backend follows Clean Architecture with a strict use-case layer: every user-facing operation maps to an explicit command or query handler, keeping domain logic decoupled from delivery and infrastructure concerns.
+
+**API surface**
+- REST for standard CRUD and resource management
+- SignalR hub for real-time bidirectional communication (notifications, live state updates, presence)
+- Both endpoints share the same application layer — no duplicated business logic
+
+**Core technical subsystems**
+
+| Subsystem | Implementation notes |
+|---|---|
+| **Real-time engine** | SignalR with group-based broadcasting; clients reconnect automatically with state reconciliation |
+| **Geolocation discovery** | Spatial queries on indexed geometry columns; results ranked by proximity with configurable radius |
+| **Media pipeline** | Resumable chunked uploads with server-side reassembly; background processing for transcoding and thumbnail generation |
+| **Delta sync** | Clients carry a `syncToken`; the API returns only records modified since the last sync, minimising data transfer on reconnect |
+| **Feature flags** | Server-side flag evaluation per user/cohort — enables progressive rollout and A/B experiments without redeployment |
+| **Crash reporting** | Structured error capture with request context, user cohort, and device metadata; routed to a dedicated monitoring pipeline |
+| **Push notifications** | Abstracted notification service backed by FCM (Android) and APNs (iOS); templated payloads with per-user preference filtering |
+
+**Authentication & authorisation**
+- JWT-based auth with short-lived access tokens and rotating refresh tokens stored server-side
+- Refresh token family tracking to detect reuse (token theft detection)
+- Role and permission model enforced at the application layer, not in controllers
+
+**Data layer**
+- Entity Framework Core with a repository pattern bounded to aggregate roots
+- Read models (projections) bypass the write stack for performance-critical query paths
+- Soft deletes with audit timestamps on all user-owned entities
+
+## GDPR compliance — built into the domain
+
+Privacy is not a layer added on top — it is modelled as a first-class domain concern.
+
+- **Pseudonymised analytics** — behavioural events reference internal identifiers, never raw PII. Re-identification requires a separate, access-controlled lookup
+- **Consent versioning** — each user record tracks which version of the privacy policy, terms, and optional consents was accepted, and when
+- **Right to erasure** — a `DeleteAccountCommand` triggers cascading domain events that anonymise or hard-delete PII across all bounded contexts, including media and third-party integrations
+- **Data breach workflow** — a defined incident response flow produces the structured report required by Art. 33 GDPR within the 72-hour window
+- **Data minimisation** — collection is gated by a documented justification for each field; no speculative data capture
+
+## Clients
+
+**Android (native — Java/Kotlin)**
+- MVVM architecture with ViewModels and LiveData / StateFlow
+- REST and SignalR communication handled through a shared repository layer
+- Offline queue: actions performed without connectivity are persisted locally and replayed on reconnect
+- Adaptive UI for phones and tablets; follows Material Design 3 guidelines
+
+**iOS (native — Swift / SwiftUI)**
+- Feature parity with Android; shared product specification, independent implementation
+- Combine-based reactive data flow
+- Background app refresh for delta sync on wake
+- Follows Apple HIG; adapts layout for iPhone and iPad
+
+**Blazor admin panel**
+- Operational tool for internal use: user management, content moderation, analytics dashboards, and feature flag configuration
+- Real-time data via SignalR — operator dashboards update live without polling
+- Role-gated views: support agents, moderators, and administrators each see a different surface
+
+## Infrastructure & DevOps
+
+- Containerised deployment (Docker) with environment-specific configuration via secrets management
+- CI pipeline runs build, unit tests, and integration tests on every push
+- Database migrations applied automatically at deploy time with rollback capability
+- Structured logging with correlation IDs across API, background jobs, and real-time hub
+
+## Current status
+
+Core feature set is complete across all four surfaces (API, Android, iOS, admin panel). The product is currently in **internal testing**, covering:
+
+- End-to-end flow validation across both mobile clients
+- Load and concurrency testing on the real-time subsystem
+- GDPR compliance audit against the implemented domain model
+- UX iteration based on internal feedback
+
+Public release is planned once the testing phase and any resulting adjustments are complete.

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <!--
+      GitHub Pages SPA routing fallback.
+      When GitHub Pages serves this 404.html for an unknown path like /blog/hello-world,
+      this script redirects to /?/blog/hello-world so index.html can restore the path.
+      Technique: https://github.com/rafgraph/spa-github-pages
+    -->
+    <script>
+      var l = window.location
+      l.replace(
+        l.protocol +
+          '//' +
+          l.hostname +
+          (l.port ? ':' + l.port : '') +
+          l.pathname.split('/').slice(0, 1).join('/') +
+          '/?/' +
+          l.pathname.slice(1).replace(/&/g, '~and~') +
+          (l.search
+            ? '&' + l.search.slice(1).replace(/&/g, '~and~')
+            : '') +
+          l.hash
+      )
+    </script>
+  </head>
+  <body></body>
+</html>

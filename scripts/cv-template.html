@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Europass CV — Enrico Stangherlin</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --eu-navy:  #003369;
+    --eu-blue:  #0065A2;
+    --eu-light: #e8f0f8;
+    --eu-bar:   #f0f4f9;
+    --gray-900: #111827;
+    --gray-700: #374151;
+    --gray-600: #4b5563;
+    --gray-500: #6b7280;
+    --gray-400: #9ca3af;
+    --gray-200: #e5e7eb;
+    --gray-100: #f3f4f6;
+  }
+
+  @page { size: A4 portrait; margin: 0; }
+
+  html, body {
+    width: 210mm;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 8pt;
+    line-height: 1.4;
+    color: var(--gray-700);
+    background: white;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ── Page (natural height, no forced stretch) ────────────────────── */
+  .page {
+    width: 210mm;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Europass top banner ─────────────────────────────────────────── */
+  .eu-banner {
+    background: var(--eu-navy);
+    color: white;
+    padding: 5.5mm 8mm 5mm;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4mm;
+    flex-shrink: 0;
+  }
+
+  .eu-banner-left { flex: 1; }
+
+  .eu-label {
+    font-size: 6pt;
+    font-weight: 400;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    opacity: 0.70;
+    margin-bottom: 2mm;
+  }
+
+  .eu-name {
+    font-size: 19pt;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-bottom: 1.5mm;
+  }
+
+  .eu-role {
+    font-size: 9pt;
+    font-weight: 400;
+    opacity: 0.85;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── Contact strip — 2 rows ──────────────────────────────────────── */
+  .contact-strip {
+    background: var(--eu-blue);
+    color: white;
+    padding: 2mm 8mm;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2mm;
+    font-size: 7pt;
+    flex-shrink: 0;
+  }
+
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 5mm;
+    align-items: center;
+  }
+
+  .ci {
+    display: flex;
+    align-items: center;
+    gap: 1.5mm;
+    opacity: 0.95;
+  }
+
+  .ci svg { width: 2.8mm; height: 2.8mm; flex-shrink: 0; }
+
+  /* ── CV body: label | content rows ──────────────────────────────── */
+  .cv-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cv-row {
+    display: flex;
+    border-bottom: 0.5px solid var(--gray-200);
+  }
+
+  .cv-row:last-child { border-bottom: none; }
+
+  .row-label {
+    width: 34mm;
+    flex-shrink: 0;
+    background: var(--eu-bar);
+    padding: 3mm 3mm 3mm 8mm;
+    border-right: 2px solid var(--eu-light);
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .label-text {
+    font-size: 6pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--eu-navy);
+    line-height: 1.3;
+    padding-top: 0.5mm;
+  }
+
+  .row-content {
+    flex: 1;
+    padding: 3mm 8mm 3mm 5mm;
+    min-width: 0;
+  }
+
+  /* ── Personal information ────────────────────────────────────────── */
+  .personal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8mm 6mm;
+    font-size: 7.5pt;
+  }
+
+  .personal-item { display: flex; align-items: baseline; gap: 1.5mm; }
+
+  .pi-key {
+    font-size: 6pt;
+    font-weight: 700;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    width: 26mm;
+    flex-shrink: 0;
+  }
+
+  .pi-val { color: var(--gray-700); }
+
+  /* ── Experience / Education blocks ──────────────────────────────── */
+  .exp-block { margin-bottom: 2.5mm; }
+  .exp-block:last-child { margin-bottom: 0; }
+
+  .exp-head {
+    display: flex;
+    align-items: baseline;
+    gap: 3mm;
+    margin-bottom: 0.5mm;
+  }
+
+  .exp-period {
+    font-size: 7pt;
+    color: var(--eu-blue);
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+    min-width: 30mm;
+  }
+
+  .exp-title {
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: var(--gray-900);
+  }
+
+  .exp-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 2mm;
+    margin-bottom: 1mm;
+    padding-left: 33mm;
+  }
+
+  .exp-org { font-size: 7.5pt; font-weight: 600; color: var(--eu-blue); }
+  .exp-loc { font-size: 7pt; color: var(--gray-500); }
+
+  .exp-body {
+    font-size: 7.5pt;
+    color: var(--gray-600);
+    line-height: 1.45;
+    padding-left: 33mm;
+    border-left: none;
+  }
+
+  .exp-body ul { list-style: none; padding: 0; }
+
+  .exp-body ul li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5mm;
+  }
+
+  .exp-body ul li::before {
+    content: '▸';
+    color: var(--eu-blue);
+    font-size: 6pt;
+    flex-shrink: 0;
+    margin-top: 0.8mm;
+  }
+
+  .eqf-badge {
+    display: inline-block;
+    background: var(--eu-light);
+    color: var(--eu-navy);
+    font-size: 6pt;
+    font-weight: 700;
+    padding: 0.3mm 2mm;
+    border-radius: 2mm;
+    margin-left: 2mm;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+
+  /* ── Language skills ─────────────────────────────────────────────── */
+  .lang-mother { font-size: 7.5pt; margin-bottom: 2mm; }
+  .lang-mother strong { color: var(--gray-900); }
+
+  .lang-foreign-name {
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 1.2mm;
+  }
+
+  .cefr-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 6.5pt;
+    margin-bottom: 1.2mm;
+  }
+
+  .cefr-table thead tr:first-child th {
+    background: var(--eu-navy);
+    color: white;
+    text-align: center;
+    padding: 1mm 1.5mm;
+    font-weight: 600;
+    font-size: 6pt;
+    letter-spacing: 0.05em;
+  }
+
+  .cefr-table thead tr:last-child th {
+    background: var(--eu-light);
+    color: var(--eu-navy);
+    text-align: center;
+    padding: 0.8mm 1mm;
+    font-weight: 400;
+    font-size: 6pt;
+  }
+
+  .cefr-table tbody td {
+    text-align: center;
+    padding: 1mm;
+    font-weight: 700;
+    color: var(--eu-blue);
+    border: 0.5px solid var(--gray-200);
+    font-size: 7.5pt;
+  }
+
+  .cefr-note { font-size: 6pt; color: var(--gray-400); font-style: italic; }
+
+  /* ── Digital skills ──────────────────────────────────────────────── */
+  .skill-group { margin-bottom: 1.5mm; }
+  .skill-group:last-child { margin-bottom: 0; }
+
+  .sg-label {
+    font-size: 6pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--gray-400);
+    margin-bottom: 1mm;
+  }
+
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.8mm; }
+
+  .stag {
+    background: var(--eu-light);
+    color: var(--eu-navy);
+    border-radius: 1mm;
+    padding: 0.4mm 2mm;
+    font-size: 7pt;
+    font-weight: 500;
+  }
+
+  .stag.soft { background: var(--gray-100); color: var(--gray-700); }
+
+  /* ── Certifications ──────────────────────────────────────────────── */
+  .cert-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5mm 5mm;
+  }
+
+  .cert-title { font-size: 7.5pt; font-weight: 600; color: var(--gray-900); line-height: 1.3; }
+  .cert-meta  { font-size: 6.5pt; color: var(--gray-400); }
+
+  /* ── Signature area ──────────────────────────────────────────────── */
+  .signature-area {
+    margin: 4mm 8mm 2mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 10mm;
+  }
+
+  .sig-block { flex: 1; }
+
+  .sig-label {
+    font-size: 6.5pt;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 1mm;
+  }
+
+  .sig-value {
+    font-size: 8pt;
+    color: var(--gray-700);
+    margin-bottom: 1mm;
+    min-height: 0;
+  }
+  .sig-value img {
+    display: block;
+    max-height: 12mm;
+    max-width: 50mm;
+  }
+
+  .sig-line {
+    border-top: 1px solid var(--gray-400);
+    height: 4mm;
+  }
+
+  .sig-gdpr {
+    font-size: 6pt;
+    color: var(--gray-400);
+    font-style: italic;
+    text-align: center;
+    margin-top: 3mm;
+    padding: 0 8mm;
+    border-top: 0.5px solid var(--gray-200);
+    padding-top: 2mm;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── Europass Banner ───────────────────────────────────────────── -->
+  <div class="eu-banner">
+    <div class="eu-banner-left">
+      <div class="eu-label">Curriculum Vitae — Europass</div>
+      <div class="eu-name">Enrico Stangherlin</div>
+      <div class="eu-role">Software Engineer</div>
+    </div>
+
+    <!-- EU 12-star circle (correct positions) -->
+    <svg width="40" height="40" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+      <rect width="50" height="50" rx="3" fill="#003399"/>
+      <!-- 12 gold stars at 30° intervals on a circle r=18, centre (25,25) -->
+      <!-- font-size 6, text-anchor middle, dominant-baseline central      -->
+      <text x="25"    y="7"     text-anchor="middle" dominant-baseline="central" fill="#FFD700" font-size="6" font-family="serif">★</text>
+      <text x="34"    y="9.41"  text-anchor="middle" dominant-baseline="central" fill="#FFD700" font-size="6" font-family="serif">★</text>
+      <text x="40.59" y="16"    text-anchor="middle" dominant-baseline="central" fill="#FFD700" font-size="6" font-family="serif">★</text>
+      <text x="43"    y="25"    text-anchor="middle" dominant-baseline="central" fill="#FFD700" font-size="6" font-family="serif">★</text>
+      <text x="40.59" y="34"    text-anchor="middle" dominant-baseline="central" fill="#FFD700" font-size="6" font-family="serif">★</text>
+      <text x="34"    y="40.59" text-anchor="middle" dominant-baseline="central" fill="#FFD700" font-size="6" font-family="serif">★</text>
+      <text x="25"    y="43"    text-anchor="middle" dominant-baseline="central" fill="#FFD700" font-size="6" font-family="serif">★</text>
+      <text x="16"    y="40.59" text-anchor="middle" dominant-baseline="central" fill="#FFD700" font-size="6" font-family="serif">★</text>
+      <text x="9.41"  y="34"    text-anchor="middle" dominant-baseline="central" fill="#FFD700" font-size="6" font-family="serif">★</text>
+      <text x="7"     y="25"    text-anchor="middle" dominant-baseline="central" fill="#FFD700" font-size="6" font-family="serif">★</text>
+      <text x="9.41"  y="16"    text-anchor="middle" dominant-baseline="central" fill="#FFD700" font-size="6" font-family="serif">★</text>
+      <text x="16"    y="9.41"  text-anchor="middle" dominant-baseline="central" fill="#FFD700" font-size="6" font-family="serif">★</text>
+    </svg>
+  </div>
+
+  <!-- ── Contact Strip — 2 rows ───────────────────────────────────── -->
+  <div class="contact-strip">
+    <div class="contact-row">
+      <span class="ci">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0zM19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+        Castello di Godego (TV), Italy
+      </span>
+      <span class="ci">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 6z"/></svg>
+        +39 331 722 1405
+      </span>
+      <span class="ci">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+        enrico.stangherlin.1@studenti.unipd.it
+      </span>
+    </div>
+    <div class="contact-row">
+      <span class="ci">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        linkedin.com/in/enrico-stangherlin-82b8a31b8
+      </span>
+      <span class="ci">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+        github.com/stangherlin-enrico
+      </span>
+    </div>
+  </div>
+
+  <!-- ── CV Body ────────────────────────────────────────────────────── -->
+  <div class="cv-body">
+
+    <!-- Personal Information -->
+    <div class="cv-row">
+      <div class="row-label"><span class="label-text">Personal<br>Information</span></div>
+      <div class="row-content">
+        <div class="personal-grid">
+          <div class="personal-item">
+            <span class="pi-key">Nationality</span>
+            <span class="pi-val">Italian</span>
+          </div>
+          <div class="personal-item">
+            <span class="pi-key">Driving licence</span>
+            <span class="pi-val">Italian – Category B</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Personal Statement -->
+    <div class="cv-row">
+      <div class="row-label"><span class="label-text">Personal<br>Statement</span></div>
+      <div class="row-content">
+        <p style="font-size:7.5pt;line-height:1.5;color:#374151;">
+          Software Engineer with two years of professional experience in backend, mobile and frontend development,
+          currently pursuing a Computer Science degree at the University of Padua. I approach every problem with a
+          critical, research-driven mindset, having contributed to enterprise systems in C#, Java and Swift while
+          independently building high-complexity projects. I seek environments where the quality of thought behind
+          a solution matters as much as the solution itself.
+        </p>
+      </div>
+    </div>
+
+    <!-- Work Experience -->
+    <div class="cv-row">
+      <div class="row-label"><span class="label-text">Work<br>Experience</span></div>
+      <div class="row-content">
+
+        <div class="exp-block">
+          <div class="exp-head">
+            <span class="exp-period">12/2023 – 07/2025</span>
+            <span class="exp-title">Software Developer</span>
+          </div>
+          <div class="exp-meta">
+            <span class="exp-org">Modi Nuovi SPA</span>
+            <span class="exp-loc">· San Martino di Lupari (PD), Italy</span>
+          </div>
+          <div class="exp-body">
+            <ul>
+              <li>Backend development in C# / .NET for business-critical enterprise modules</li>
+              <li>Rich UI components built with DevExpress and Bootstrap</li>
+              <li>Native Android development in Java; iOS development in Swift</li>
+              <li>Collaborated in cross-functional teams delivering end-to-end features</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="exp-block">
+          <div class="exp-head">
+            <span class="exp-period">06/2023 – 11/2023</span>
+            <span class="exp-title">Software Developer</span>
+          </div>
+          <div class="exp-meta">
+            <span class="exp-org">VIDA SRL</span>
+            <span class="exp-loc">· Riese Pio X (TV), Italy</span>
+          </div>
+          <div class="exp-body">
+            <ul>
+              <li>C# / .NET backend development and maintenance</li>
+              <li>Frontend integration with HTML and CSS</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Education and Training -->
+    <div class="cv-row">
+      <div class="row-label"><span class="label-text">Education<br>and Training</span></div>
+      <div class="row-content">
+
+        <div class="exp-block">
+          <div class="exp-head">
+            <span class="exp-period">10/2025 – present</span>
+            <span class="exp-title">Bachelor's Degree — Computer Science <span class="eqf-badge">EQF 6</span></span>
+          </div>
+          <div class="exp-meta">
+            <span class="exp-org">Università degli Studi di Padova</span>
+            <span class="exp-loc">· Padova, Italy</span>
+          </div>
+          <div class="exp-body">Focus: software development, networks and databases.</div>
+        </div>
+
+        <div class="exp-block">
+          <div class="exp-head">
+            <span class="exp-period">09/2016 – 06/2021</span>
+            <span class="exp-title">Technical Diploma — ICT <span class="eqf-badge">EQF 4</span></span>
+          </div>
+          <div class="exp-meta">
+            <span class="exp-org">ITT Eugenio Barsanti</span>
+            <span class="exp-loc">· Castelfranco Veneto (TV), Italy</span>
+          </div>
+          <div class="exp-body">Final grade: 85/100 · Thesis: Drone application</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Language Skills -->
+    <div class="cv-row">
+      <div class="row-label"><span class="label-text">Language<br>Skills</span></div>
+      <div class="row-content">
+
+        <div class="lang-mother">Mother tongue: <strong>Italian</strong></div>
+
+        <div class="lang-foreign-name">English</div>
+        <table class="cefr-table">
+          <thead>
+            <tr>
+              <th colspan="2">Understanding</th>
+              <th colspan="2">Speaking</th>
+              <th>Writing</th>
+            </tr>
+            <tr>
+              <th>Listening</th>
+              <th>Reading</th>
+              <th>Spoken interaction</th>
+              <th>Spoken production</th>
+              <th>Writing</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>B2</td>
+              <td>B2</td>
+              <td>B1</td>
+              <td>B1</td>
+              <td>B1</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="cefr-note">Levels: A1/A2 Basic · B1/B2 Independent · C1/C2 Proficient (CEFR) · Reading &amp; Listening B2 certified by Università degli Studi di Padova – CLA (11/2025)</div>
+
+      </div>
+    </div>
+
+    <!-- Digital Skills -->
+    <div class="cv-row">
+      <div class="row-label"><span class="label-text">Digital<br>Skills</span></div>
+      <div class="row-content">
+
+        <div class="skill-group">
+          <div class="sg-label">Programming &amp; Frameworks</div>
+          <div class="skill-tags">
+            <span class="stag">C#</span><span class="stag">.NET 8/9</span><span class="stag">JavaScript</span><span class="stag">TypeScript</span>
+            <span class="stag">React</span><span class="stag">Blazor</span><span class="stag">SignalR</span>
+            <span class="stag">Android (Java / Kotlin)</span><span class="stag">iOS (Swift / SwiftUI)</span>
+            <span class="stag">HTML</span><span class="stag">CSS</span><span class="stag">Bootstrap</span><span class="stag">DevExpress</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="sg-label">Data &amp; Architecture</div>
+          <div class="skill-tags">
+            <span class="stag">SQL Server</span><span class="stag">PostgreSQL</span><span class="stag">MySQL</span>
+            <span class="stag">Entity Framework Core</span><span class="stag">Redis</span>
+            <span class="stag">Clean Architecture</span><span class="stag">CQRS</span><span class="stag">OOP</span><span class="stag">TDD</span><span class="stag">Git</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="sg-label">Soft Skills</div>
+          <div class="skill-tags">
+            <span class="stag soft">Problem Solving</span><span class="stag soft">Teamwork</span>
+            <span class="stag soft">Autonomy</span><span class="stag soft">Continuous Learning</span>
+            <span class="stag soft">Critical Thinking</span><span class="stag soft">Ownership</span><span class="stag soft">Attention to Detail</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Additional Information -->
+    <div class="cv-row">
+      <div class="row-label"><span class="label-text">Additional<br>Information</span></div>
+      <div class="row-content">
+        <div class="cert-grid">
+          <div>
+            <div class="cert-title">English B2 — Reading &amp; Listening</div>
+            <div class="cert-meta">Università degli Studi di Padova · CLA · 11/2025</div>
+          </div>
+          <div>
+            <div class="cert-title">Workers Safety Training — Low Risk</div>
+            <div class="cert-meta">AGSG · 03/2024</div>
+          </div>
+          <div>
+            <div class="cert-title">Introduction to Cybersecurity</div>
+            <div class="cert-meta">Cisco Networking Academy · 03/2021</div>
+          </div>
+          <div>
+            <div class="cert-title">CCNA: Introduction to Networks</div>
+            <div class="cert-meta">Cisco Networking Academy · 09/2020</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /cv-body -->
+
+  <!-- ── Signature area ─────────────────────────────────────────────── -->
+  <div class="signature-area">
+    <div class="sig-block">
+      <div class="sig-label">Place and Date</div>
+      <div id="sig-place-date" class="sig-value"></div>
+      <div class="sig-line"></div>
+    </div>
+    <div class="sig-block">
+      <div class="sig-label">Signature</div>
+      <div id="sig-signature" class="sig-value"></div>
+      <div class="sig-line"></div>
+    </div>
+  </div>
+  <div class="sig-gdpr">
+    I authorise the processing of my personal data in accordance with Legislative Decree 196/2003 and GDPR (EU) 2016/679.
+  </div>
+
+</div><!-- /page -->
+</body>
+</html>

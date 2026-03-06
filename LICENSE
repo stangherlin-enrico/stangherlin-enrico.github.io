@@ -1,0 +1,81 @@
+Enrico Stangherlin Portfolio — Source-Available License v1.0
+
+Copyright (c) 2025 Enrico Stangherlin. All rights reserved.
+
+────────────────────────────────────────────────────────────────
+GRANT OF RIGHTS
+────────────────────────────────────────────────────────────────
+
+Subject to the conditions below, you are granted a limited,
+non-exclusive, non-transferable right to:
+
+  1. VIEW     — Read and study the source code for personal
+                learning and reference purposes.
+
+  2. TEMPLATE — Use this project as a starting point for your
+                own personal, non-commercial portfolio or
+                GitHub Pages site, provided all conditions
+                below are met.
+
+────────────────────────────────────────────────────────────────
+CONDITIONS
+────────────────────────────────────────────────────────────────
+
+  ATTRIBUTION REQUIRED (MANDATORY IN ALL CASES)
+
+    Any use of this code, in whole or in part, must include
+    clear and prominent credit to the original author. This
+    credit must appear in:
+
+      - The project's README or main documentation, AND
+      - Any user-facing credits, about pages, or footer,
+        where technically applicable.
+
+    The attribution must read, at minimum:
+
+      "Based on work by Enrico Stangherlin
+       (https://github.com/stangherlin-enrico)"
+
+    Removing, hiding, or obscuring this attribution is
+    strictly prohibited.
+
+  NO COMMERCIAL USE
+
+    You may not use this code, in whole or in part, for any
+    commercial purpose, including but not limited to: selling,
+    licensing, embedding in a revenue-generating product or
+    service, or use within a commercial organisation's internal
+    tooling.
+
+  NO REDISTRIBUTION AS A TEMPLATE OR THEME
+
+    You may not publish, distribute, sublicense, package, or
+    make publicly available this code (or any derivative of it)
+    as a reusable template, theme, or boilerplate for others.
+    Using it for your own personal site is permitted; sharing
+    it as a ready-made product is not.
+
+  NO CLAIM OF AUTHORSHIP
+
+    You may not represent this code, or any work substantially
+    derived from it, as your own original creation. You may not
+    remove or alter any copyright notices present in the source.
+
+  PERSONAL USE ONLY
+
+    Derivative works must remain personal, non-commercial sites
+    (e.g. a personal GitHub Pages portfolio). Any other use
+    requires prior written permission from the author.
+
+────────────────────────────────────────────────────────────────
+DISCLAIMER
+────────────────────────────────────────────────────────────────
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
+NON-INFRINGEMENT. IN NO EVENT SHALL ENRICO STANGHERLIN BE
+LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN
+CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
