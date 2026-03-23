@@ -27,7 +27,7 @@ export function BlogPost() {
   }, [slug])
 
   if (notFound) return <Navigate to="/blog" replace />
-  if (!mod) return <p className="text-gray-400 text-sm py-8">Loading...</p>
+  if (!mod) return <p className="text-muted-foreground text-sm py-8 font-mono">Loading...</p>
 
   const { frontmatter, default: Content } = mod
   const date = new Date(frontmatter.date).toLocaleDateString('en-US', {
@@ -48,19 +48,22 @@ export function BlogPost() {
       <div className="mb-6">
         <Link
           to="/blog"
-          className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
         >
-          &larr; Back to blog
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          Back to blog
         </Link>
       </div>
 
       <article>
         <header className="mb-8">
-          <time className="text-xs text-gray-400 uppercase tracking-wide">{date}</time>
-          <h1 className="mt-2 mb-3 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <time className="text-xs font-mono text-muted-foreground uppercase tracking-wide">{date}</time>
+          <h1 className="font-display mt-2 mb-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             {frontmatter.title}
           </h1>
-          <p className="mb-4 text-lg text-gray-600">{frontmatter.excerpt}</p>
+          <p className="mb-4 text-lg text-secondary-foreground">{frontmatter.excerpt}</p>
           <div className="flex flex-wrap gap-1.5">
             {frontmatter.tags.map((tag) => (
               <Badge key={tag}>{tag}</Badge>
@@ -68,11 +71,10 @@ export function BlogPost() {
           </div>
         </header>
 
-        <div className="prose prose-gray max-w-none">
+        <div className="prose max-w-none">
           <Content />
         </div>
       </article>
-
     </>
   )
 }

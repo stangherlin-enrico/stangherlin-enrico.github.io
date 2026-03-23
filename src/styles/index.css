@@ -1,15 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  html {
-    font-family: 'Inter', system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
+  :root {
+    --background:   220 18% 7%;
+    --foreground:   42 20% 88%;
 
-  /* highlight.js code blocks */
-  pre code.hljs {
-    @apply rounded-lg text-sm;
+    --card:           220 16% 11%;
+    --card-foreground: 42 20% 88%;
+
+    --primary:           38 92% 55%;
+    --primary-foreground: 220 18% 7%;
+
+    --secondary:           220 14% 16%;
+    --secondary-foreground: 42 15% 75%;
+
+    --muted:           220 12% 14%;
+    --muted-foreground: 220 10% 50%;
+
+    --accent:           38 92% 55%;
+    --accent-foreground: 220 18% 7%;
+
+    --border: 220 12% 18%;
+    --input:  220 12% 18%;
+    --ring:   38 92% 55%;
+
+    --radius: 0.375rem;
+
+    /* Custom tokens */
+    --gold:           38 92% 55%;
+    --gold-dim:       38 60% 40%;
+    --surface-raised: 220 14% 13%;
+    --text-dim:       220 10% 45%;
   }
 }
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-weight: 400;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+  }
+
+  code, pre, kbd {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+}
+
+@layer components {
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(38 92% 55%), hsl(28 90% 60%));
+  }
+}
+
+/* ── Prose overrides for dark theme ─────────────────────────── */
+.prose code::before,
+.prose code::after {
+  content: none;
+}
+
+.prose {
+  --tw-prose-body:        hsl(42 15% 75%);
+  --tw-prose-headings:    hsl(42 20% 88%);
+  --tw-prose-lead:        hsl(42 15% 75%);
+  --tw-prose-links:       hsl(38 92% 55%);
+  --tw-prose-bold:        hsl(42 20% 88%);
+  --tw-prose-counters:    hsl(220 10% 50%);
+  --tw-prose-bullets:     hsl(220 10% 50%);
+  --tw-prose-hr:          hsl(220 12% 18%);
+  --tw-prose-quotes:      hsl(42 20% 88%);
+  --tw-prose-quote-borders: hsl(38 92% 55%);
+  --tw-prose-captions:    hsl(220 10% 50%);
+  --tw-prose-code:        hsl(38 92% 55%);
+  --tw-prose-pre-code:    hsl(42 20% 88%);
+  --tw-prose-pre-bg:      hsl(220 12% 14%);
+  --tw-prose-th-borders:  hsl(220 12% 18%);
+  --tw-prose-td-borders:  hsl(220 12% 18%);
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: hsl(var(--background)); }
+::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground)); }

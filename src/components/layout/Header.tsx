@@ -2,21 +2,26 @@ import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
 const navItems = [
-  { to: '/', label: 'Home' },
+  { to: '/',         label: 'Home' },
   { to: '/portfolio', label: 'Portfolio' },
-  { to: '/blog', label: 'Blog' },
-  { to: '/cv', label: 'CV' },
-  { to: '/about', label: 'About' },
+  { to: '/blog',     label: 'Blog' },
+  { to: '/cv',       label: 'CV' },
+  { to: '/about',    label: 'About' },
 ]
 
 export function Header() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-40 border-b border-gray-200 bg-white/90 backdrop-blur">
-      <nav className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
-        <NavLink to="/" className="text-lg font-semibold text-gray-900">
-          Enrico Stangherlin
+    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
+      <nav className="mx-auto flex max-w-4xl items-center justify-between px-4 h-14">
+
+        {/* Logo */}
+        <NavLink
+          to="/"
+          className="font-display font-bold text-lg tracking-tight text-primary hover:opacity-80 transition-opacity"
+        >
+          {'{ Enrico }'}
         </NavLink>
 
         {/* Desktop nav */}
@@ -27,10 +32,10 @@ export function Header() {
                 to={to}
                 end={to === '/'}
                 className={({ isActive }) =>
-                  `rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                  `rounded-sm px-3 py-1.5 text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-gray-100 text-gray-900'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                      ? 'bg-primary/10 text-primary'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`
                 }
               >
@@ -42,7 +47,7 @@ export function Header() {
 
         {/* Mobile hamburger */}
         <button
-          className="sm:hidden rounded-md p-2 text-gray-600 hover:bg-gray-100"
+          className="sm:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
         >
@@ -60,7 +65,7 @@ export function Header() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="border-t border-gray-100 bg-white px-4 pb-3 sm:hidden">
+        <div className="border-t border-border bg-background px-4 pb-3 sm:hidden">
           <ul className="flex flex-col gap-1 pt-2">
             {navItems.map(({ to, label }) => (
               <li key={to}>
@@ -69,10 +74,10 @@ export function Header() {
                   end={to === '/'}
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
-                    `block rounded-md px-3 py-2 text-sm font-medium ${
+                    `block rounded-sm px-3 py-2 text-sm font-medium transition-colors ${
                       isActive
-                        ? 'bg-gray-100 text-gray-900'
-                        : 'text-gray-600 hover:bg-gray-50'
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted-foreground hover:text-foreground'
                     }`
                   }
                 >

@@ -16,8 +16,8 @@ export function Blog() {
         url="/blog"
       />
       <div className="mb-10">
-        <h1 className="text-3xl font-bold text-gray-900 mb-3">Blog</h1>
-        <p className="text-gray-600">Articles, notes, and things I've learned.</p>
+        <h1 className="font-display text-3xl font-bold text-foreground mb-3">Blog</h1>
+        <p className="text-secondary-foreground">Articles, notes, and things I've learned.</p>
       </div>
 
       <div className="mb-6">
@@ -25,7 +25,7 @@ export function Blog() {
       </div>
 
       {loading ? (
-        <p className="text-gray-400 text-sm">Loading posts...</p>
+        <p className="text-muted-foreground text-sm font-mono">Loading posts...</p>
       ) : (
         <PostList posts={results} />
       )}

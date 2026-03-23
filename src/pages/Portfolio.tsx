@@ -13,12 +13,12 @@ export function Portfolio() {
         url="/portfolio"
       />
       <div className="mb-10">
-        <h1 className="text-3xl font-bold text-gray-900 mb-3">Portfolio</h1>
-        <p className="text-gray-600">Projects I've built and open source work.</p>
+        <h1 className="font-display text-3xl font-bold text-foreground mb-3">Portfolio</h1>
+        <p className="text-secondary-foreground">Projects I've built and open source work.</p>
       </div>
 
       {loading ? (
-        <p className="text-sm text-gray-400">Loading projects…</p>
+        <p className="text-sm text-muted-foreground font-mono">Loading projects…</p>
       ) : (
         <ProjectGrid projects={projects} />
       )}

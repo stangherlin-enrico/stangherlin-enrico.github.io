@@ -2,8 +2,8 @@
 title: "StangaNetLib — .NET C# Library Ecosystem"
 excerpt: "Suite of 9 independent, composable .NET 8/9 libraries built with a Test-Driven Development approach, each fully covered by unit and integration tests. Designed to provide Clean Architecture building blocks with zero external dependencies at the core."
 tags: ["C#", ".NET", "TDD", "Clean Architecture", "Redis", "JWT", "GDPR"]
-status: "in-progress"
-confidential: true
+status: "released"
+confidential: false
 openSource: true
 featured: true
 date: "2024-06-01"
@@ -16,11 +16,11 @@ A suite of 9 independent, composable libraries for .NET 8 and .NET 9, developed 
 
 The goal is to encode hard-won architectural decisions into reusable, well-tested building blocks — so they don't need to be reinvented on every new project, and so that the assumptions behind them are explicit and verifiable.
 
-The libraries are currently private, nearing their initial release. They will be published as open-source repositories under the [StangaNet GitHub organisation](https://github.com/StangaNet) once they are complete and all test suites pass.
+All libraries are published as open-source repositories under the [StangaNet GitHub organisation](https://github.com/StangaNet).
 
-## Phase 1 — Core library suite
+## Library suite
 
-The first phase covers 9 foundational libraries. Every library in the ecosystem depends on **StangaNetLib.Core**, which provides the shared abstractions, result primitives, and interfaces that keep all other libraries decoupled from infrastructure.
+The ecosystem covers 9 foundational libraries. Every library depends on **StangaNetLib.Core**, which provides the shared abstractions, result primitives, and interfaces that keep all other libraries decoupled from infrastructure.
 
 | Library | Responsibility |
 |---|---|
@@ -41,25 +41,3 @@ The first phase covers 9 foundational libraries. Every library in the ecosystem 
 - **Composable** — libraries are independent of each other; a project can adopt one, several, or all without pulling in unwanted dependencies
 - **TDD throughout** — every public API is specified by tests before the implementation is written; tests document intent, not just correctness
 - **Clean Architecture compliant** — all abstractions live in the domain/application layer; infrastructure adapters are in separate assemblies and are never referenced directly by domain code
-
-## Release plan
-
-The 9 Phase 1 libraries are in their final stage: feature-complete, with test suites being finalised and reviewed. Release is intentionally held until:
-
-1. All unit and integration tests pass cleanly across .NET 8 and .NET 9
-2. Public API surfaces are stable and documented
-3. NuGet package metadata, versioning strategy, and repository structure are finalised
-
-On release, the libraries will be published as open-source under the [StangaNet GitHub organisation](https://github.com/StangaNet).
-
-## Phase 2 — Planned extensions
-
-Once Phase 1 is released, development continues in two directions:
-
-**Extended libraries** — deeper or more specialised versions of existing Phase 1 libraries, targeting use cases that are too specific for the core package (e.g. a storage adapter for S3, an observability sink for a specific APM platform).
-
-**New libraries** — entirely new additions to the ecosystem addressing different cross-cutting concerns (e.g. localisation, background job abstractions, multi-tenancy primitives).
-
-**One invariant holds for both directions:** every library in the StangaNetLib ecosystem — whether an extension of an existing one or a brand-new addition — must depend on **StangaNetLib.Core**. This keeps the entire ecosystem on a single, stable foundation and ensures Core abstractions remain the integration point for all consumer code.
-
-A dedicated project page will be created for Phase 2 once planning is sufficiently advanced.

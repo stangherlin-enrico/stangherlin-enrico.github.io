@@ -6,8 +6,8 @@ import { profile } from '../data/profile'
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="border-t border-gray-100 pt-10 mt-10 first:border-t-0 first:pt-0 first:mt-0">
-      <h2 className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-gray-400">{title}</h2>
+    <section className="border-t border-border pt-10 mt-10 first:border-t-0 first:pt-0 first:mt-0">
+      <h2 className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{title}</h2>
       {children}
     </section>
   )
@@ -21,7 +21,7 @@ function ContactLink({ href, icon, label }: { href: string; icon: React.ReactNod
     <a
       href={href}
       {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      className="inline-flex items-center gap-2 rounded-md border border-gray-200 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50 hover:text-gray-900"
+      className="inline-flex items-center gap-2 rounded-sm border border-border bg-secondary px-3 py-2 text-sm text-secondary-foreground transition-colors hover:border-primary/50 hover:text-primary"
     >
       {icon}
       {label}
@@ -41,17 +41,17 @@ export function About() {
       />
 
       <div className="mb-10">
-        <h1 className="text-3xl font-bold text-gray-900 mb-3">About</h1>
-        <p className="text-gray-600">Who I am, how this site works, and how to get in touch.</p>
+        <h1 className="font-display text-3xl font-bold text-foreground mb-3">About</h1>
+        <p className="text-secondary-foreground">Who I am, how this site works, and how to get in touch.</p>
       </div>
 
-      <div className="max-w-2xl space-y-0">
+      <div className="max-w-2xl">
 
         {/* ── Who I am ── */}
         <Section title="Who I am">
-          <div className="space-y-4 text-base leading-7 text-gray-700">
+          <div className="space-y-4 text-base leading-7 text-secondary-foreground">
             <p>
-              I'm <strong className="text-gray-900">Enrico Stangherlin</strong>, a software engineer
+              I'm <strong className="text-foreground">Enrico Stangherlin</strong>, a software engineer
               based in {profile.location}. I have two years of professional experience across backend,
               mobile and frontend development, and I'm currently studying Computer Science at the
               University of Padua.
@@ -102,7 +102,7 @@ export function About() {
 
         {/* ── About this site ── */}
         <Section title="About this site">
-          <div className="space-y-4 text-base leading-7 text-gray-700">
+          <div className="space-y-4 text-base leading-7 text-secondary-foreground">
             <p>
               This site is my personal portfolio and blog — a place to document projects, write about
               software, and maintain a professional profile. It's built entirely from scratch with
@@ -111,11 +111,11 @@ export function About() {
             <p>
               The source code is publicly available. If you want to use it as a starting point for
               your own portfolio, read the{' '}
-              <a href="#license" className="font-medium text-accent-600 hover:underline">
+              <a href="#license" className="font-medium text-primary hover:underline">
                 license section below
               </a>{' '}
               and download the setup guide from the{' '}
-              <Link to="/portfolio/personal-portfolio" className="font-medium text-accent-600 hover:underline">
+              <Link to="/portfolio/personal-portfolio" className="font-medium text-primary hover:underline">
                 project page
               </Link>
               .
@@ -131,9 +131,9 @@ export function About() {
               { label: 'Search',      value: 'Fuse.js' },
               { label: 'Hosting',     value: 'GitHub Pages' },
             ].map(({ label, value }) => (
-              <div key={label} className="rounded-lg border border-gray-100 bg-gray-50 px-4 py-3">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">{label}</p>
-                <p className="mt-0.5 text-sm font-medium text-gray-800">{value}</p>
+              <div key={label} className="rounded-md border border-border bg-card px-4 py-3">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{label}</p>
+                <p className="mt-0.5 text-sm font-medium text-foreground">{value}</p>
               </div>
             ))}
           </div>
@@ -141,15 +141,14 @@ export function About() {
 
         {/* ── Open to ── */}
         <Section title="Open to">
-          <ul className="space-y-3 text-base leading-7 text-gray-700">
+          <ul className="space-y-3 text-base leading-7 text-secondary-foreground">
             {[
-              { title: 'New opportunities', desc: 'Full-time or contract roles in backend, full-stack or mobile development.' },
               { title: 'Collaboration',     desc: 'Open source contributions, technical discussions, or working on interesting problems together.' },
-              { title: 'Feedback',          desc: 'If you spot something wrong or have a suggestion, I\'m happy to hear it.' },
+              { title: 'Feedback',          desc: "If you spot something wrong or have a suggestion, I'm happy to hear it." },
             ].map(({ title, desc }) => (
               <li key={title} className="flex gap-3">
-                <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-accent-400" />
-                <span><strong className="text-gray-900">{title}</strong> — {desc}</span>
+                <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-primary" />
+                <span><strong className="text-foreground">{title}</strong> — {desc}</span>
               </li>
             ))}
           </ul>
@@ -157,14 +156,14 @@ export function About() {
 
         {/* ── License ── */}
         <Section title="License">
-          <div id="license" className="mb-4 text-sm leading-relaxed text-gray-600">
+          <div id="license" className="mb-4 text-sm leading-relaxed text-secondary-foreground">
             The source code of this site is released under a custom <em>Source-Available</em> license.
             Personal, non-commercial use as a portfolio template is permitted with mandatory attribution.
             The full terms are reproduced below.
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
-            <pre className="whitespace-pre-wrap font-mono text-xs leading-relaxed text-gray-700">{LICENSE_TEXT}</pre>
+          <div className="rounded-md border border-border bg-card p-6">
+            <pre className="whitespace-pre-wrap font-mono text-xs leading-relaxed text-secondary-foreground">{LICENSE_TEXT}</pre>
           </div>
         </Section>
 

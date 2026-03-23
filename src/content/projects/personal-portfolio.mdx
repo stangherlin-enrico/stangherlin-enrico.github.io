@@ -1,42 +1,122 @@
 ---
 title: "Personal Portfolio & Blog"
-excerpt: "This website — built with React, Vite and Tailwind CSS. Includes blog with MDX, full-text search, portfolio and a Europass CV. Deployed on GitHub Pages via GitHub Actions."
-tags: ["React", "TypeScript", "Tailwind CSS", "MDX", "Vite"]
+excerpt: "This website — built with React, Vite and Tailwind CSS. Includes blog with MDX, full-text search, portfolio with per-project changelogs, and a Europass CV. Deployed on GitHub Pages via GitHub Actions."
+tags: ["React", "TypeScript", "Tailwind CSS", "MDX", "Vite", "Framer Motion"]
 status: "released"
 openSource: true
 featured: true
 date: "2026-03-06"
 github: "https://github.com/stangherlin-enrico/stangherlin-enrico.github.io"
 setupGuide: "/docs/portfolio-setup-guide.md"
+changelog:
+  - version: "v1.4"
+    type: "Feature"
+    date: "2026-03-23"
+    description: "Canonical blog tag system — BlogTag union type enforces a fixed vocabulary (meta, personal, dev, projects, music, thoughts) across all posts."
+  - version: "v1.4"
+    type: "Internal"
+    date: "2026-03-23"
+    description: "CV Relevant Projects simplified to released-only entries; in-progress projects removed to avoid constant maintenance."
+  - version: "v1.3"
+    type: "Feature"
+    date: "2026-03-23"
+    description: "Custom animated 404 page — Glitchy404 SVG/canvas component with framer-motion shake, staggered fade-up text and action buttons."
+  - version: "v1.3"
+    type: "Feature"
+    date: "2026-03-23"
+    description: "Interactive Matrix hero on Home — full-screen animated character grid with mouse-tracking glow effect, powered by Framer Motion."
+  - version: "v1.3"
+    type: "Internal"
+    date: "2026-03-23"
+    description: "Routing split: Home now uses a dedicated full-bleed layout; other pages keep the constrained max-w-5xl container."
+  - version: "v1.3"
+    type: "Feature"
+    date: "2026-03-23"
+    description: "Per-project Changelog section in ProjectDetail — collapsible, with type badges (Feature / Fix / Internal / Breaking)."
+  - version: "v1.2"
+    type: "Feature"
+    date: "2026-03-20"
+    description: "Full dark-theme redesign: Syne (display) + Outfit (body) fonts, gold/amber primary colour, CSS custom-property design tokens."
+  - version: "v1.2"
+    type: "Feature"
+    date: "2026-03-20"
+    description: "Card-based ProjectCard and PostCard components with hover glow, arrow reveal and coloured status/visibility badges."
+  - version: "v1.2"
+    type: "Internal"
+    date: "2026-03-20"
+    description: "Replaced hardcoded Tailwind gray-* colours with semantic CSS variable classes across all components and pages."
+  - version: "v1.1"
+    type: "Feature"
+    date: "2026-03-10"
+    description: "CV page: interactive timeline, collapsible sections, DownloadDropdown driven by manifest.json for multi-version PDF support."
+  - version: "v1.1"
+    type: "Feature"
+    date: "2026-03-10"
+    description: "Blog full-text search with Fuse.js — searches title, excerpt and tags with a 0.35 fuzzy threshold."
+  - version: "v1.0"
+    type: "Feature"
+    date: "2026-03-06"
+    description: "Initial release: portfolio grid, blog list, project detail pages, MDX content pipeline, GitHub Actions CI/CD."
 ---
 
 ## Overview
 
-The site you're reading right now. Built from scratch as a personal space to document projects, write about software, and present a professional profile.
+The site you're reading right now. Built from scratch as a personal space to document projects, write about software, and maintain a professional presence. Every part of the stack was chosen deliberately — there is no framework overhead, no CMS, and no third-party hosting costs.
+
+Content lives as MDX files in the repository, the build is a single Vite pass, and deployment is a GitHub Actions workflow triggered on every push to `main`.
+
+## Architecture
+
+The site follows a deliberate **content-first** architecture:
+
+- **Routing** — React Router v6 with two layout modes: a full-bleed `HomeLayout` for the landing page and a constrained `PageLayout` (max-w-5xl) for all inner pages.
+- **Content** — Blog posts and project pages are authored in MDX and resolved at build time via `import.meta.glob`. Frontmatter is exported as typed props by `remark-mdx-frontmatter`.
+- **Search** — Client-side full-text search using Fuse.js, indexed on title, excerpt and tags with a fuzzy threshold of 0.35.
+- **SEO** — Per-page `<title>`, `<meta description>`, Open Graph and Twitter Card tags injected via `react-helmet-async`.
+- **CV generation** — A separate Node script (`scripts/generate-cv.mjs`) uses Puppeteer to render an HTML template and export colour and print-friendly PDF versions. The download button is driven by a `manifest.json` so adding or removing PDF versions requires no code changes.
 
 ## Stack
 
-- **React 18 + Vite 6** — fast dev server and optimised production build
-- **TypeScript** — strict typing throughout
-- **Tailwind CSS v3** — utility-first styling with the `@tailwindcss/typography` prose plugin for blog content
-- **MDX** — blog posts and project pages written in Markdown with embedded React components
-- **React Router v6** — client-side routing with a `404.html` fallback for GitHub Pages
-- **Fuse.js** — lightweight client-side full-text search on blog posts
+- **React 18 + Vite 6** — fast dev server and tree-shaken production build
+- **TypeScript** — strict mode, no unused locals or parameters
+- **Tailwind CSS v3** — utility-first styling; `@tailwindcss/typography` for prose; CSS custom properties for the full design token system
+- **Syne + Outfit + JetBrains Mono** — display, body and mono fonts loaded via Google Fonts
+- **MDX** — blog posts and project pages with embedded React support
+- **Framer Motion** — declarative animations (home hero, future transitions)
+- **React Router v6** — client-side routing with a `404.html` fallback for GitHub Pages SPA support
+- **Fuse.js** — lightweight client-side full-text search
 - **react-helmet-async** — per-page SEO meta tags
-- **Puppeteer** — headless PDF generation for the Europass CV
+- **Puppeteer Core** — headless CV PDF generation
 
 ## Features
 
-- Blog with tag filtering, full-text search and MDX content
-- Portfolio with per-project detail pages and multi-select tag filtering
-- Europass CV with downloadable PDF (colour + black & white print-friendly versions)
-- Dynamic download button driven by a `manifest.json` — add or remove CV versions without touching code
-- GitHub Actions CI/CD — every push to `main` builds and deploys automatically
+### Portfolio
+- Per-project detail pages loaded from MDX with typed frontmatter
+- Multi-select tag filtering with AND logic — selecting multiple tags narrows results
+- Status badges (Released / In Progress / Archived) and visibility badges (Open Source / Confidential) with coloured borders and tinted backgrounds
+- Per-project Changelog section with collapsible UI and type-coded entries
 
-## Use this as a template
+### Blog
+- MDX posts with syntax-highlighted code blocks (rehype-highlight)
+- Full-text fuzzy search across title, excerpt and tags
+- Tag display on each post card
 
-The source code is publicly available. If you want to build your own GitHub Pages portfolio starting from this one, a step-by-step setup guide is available for download below.
+### CV
+- Interactive timeline for work experience and education
+- Skills grouped by hard/soft categories
+- Languages table with CEFR levels
+- Certifications grid with credential links
+- PDF download dropdown driven by `public/cv/manifest.json` — supports multiple versions (colour, B&W)
+- Reference section with Italian/English toggle
 
-> ⚠️ **Before using the code, read the [LICENSE](https://github.com/stangherlin-enrico/stangherlin-enrico.github.io/blob/main/LICENSE) carefully.**
-> Usage is permitted only for personal, non-commercial sites and requires mandatory attribution.
+### Infrastructure
+- GitHub Actions CI/CD — every push to `main` builds, copies `index.html → 404.html` for SPA routing, and deploys to GitHub Pages
+- No backend, no database, no hosting costs
+
+## Use This as a Template
+
+The source code is publicly available on GitHub. If you want to build your own GitHub Pages portfolio starting from this one, a step-by-step setup guide is available for download from the sidebar.
+
+> ⚠️ **Read the [LICENSE](https://github.com/stangherlin-enrico/stangherlin-enrico.github.io/blob/main/LICENSE) before using the code.**
+> Personal, non-commercial use with mandatory attribution is permitted.
 > Commercial use and redistribution as a theme or template are strictly prohibited.

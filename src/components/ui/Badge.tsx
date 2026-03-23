@@ -5,13 +5,12 @@ type Props = {
 }
 
 export function Badge({ children, onClick, active }: Props) {
-  const base =
-    'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors'
+  const base = 'inline-flex items-center rounded-sm border px-2.5 py-0.5 text-xs font-medium font-mono transition-colors'
   const style = active
-    ? 'bg-accent-600 text-white'
+    ? 'border-primary bg-primary/10 text-primary'
     : onClick
-    ? 'bg-gray-100 text-gray-700 hover:bg-accent-100 hover:text-accent-700 cursor-pointer'
-    : 'bg-gray-100 text-gray-600'
+    ? 'border-border bg-secondary text-secondary-foreground hover:border-primary hover:text-primary cursor-pointer'
+    : 'border-border bg-secondary text-secondary-foreground'
 
   if (onClick) {
     return (

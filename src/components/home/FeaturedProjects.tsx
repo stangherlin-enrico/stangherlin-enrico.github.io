@@ -9,14 +9,14 @@ export function FeaturedProjects() {
   if (loading || featured.length === 0) return null
 
   return (
-    <section className="py-12 border-t border-gray-100">
-      <div className="flex items-baseline justify-between mb-8">
-        <h2 className="text-2xl font-bold text-gray-900">Featured Projects</h2>
+    <section className="py-12 border-t border-border">
+      <div className="flex items-center justify-between mb-8">
+        <h2 className="font-display text-2xl font-bold text-foreground">Featured Projects</h2>
         <Link
           to="/portfolio"
-          className="text-sm text-accent-600 hover:text-accent-700 font-medium"
+          className="text-sm font-mono text-muted-foreground hover:text-primary transition-colors"
         >
-          All projects &rarr;
+          All projects →
         </Link>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
