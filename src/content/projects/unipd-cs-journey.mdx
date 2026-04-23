@@ -1,24 +1,34 @@
 ---
 title: "UniPD CS Journey"
-excerpt: "A GitHub Pages static site collecting slides, notes, and completed exercises from every course of my Computer Science degree at the University of Padua. Open to anyone who wants to follow along."
-tags: ["Jekyll", "Tailwind CSS"]
+excerpt: "An open-source archive of notes, summaries, and exercises from my Computer Science degree at the University of Padua — organised by course, rendered with full LaTeX and code support, and live at stangauni.github.io."
+tags: ["React", "TypeScript", "Vite", "MDX", "Tailwind CSS"]
 status: "in-progress"
-confidential: true
+confidential: false
 date: "2026-01-01"
 ---
 
 ## What this is
 
-A public archive of my Computer Science degree at the University of Padua — built progressively as I go through the programme. For each course I've attended, the site collects the materials I produced: slides, exercise solutions, implementations, and any notes worth sharing.
+An open-source archive of my Computer Science degree at the University of Padua, built progressively as I move through the programme. For every course I attend, the site collects what I produce: lecture summaries, exercise solutions, exam strategy notes, and anything else worth sharing. The goal is simple — make it all findable and readable, for me and for anyone taking the same courses.
 
-The goal is straightforward: make everything accessible. If someone is taking the same courses, studying the same topics, or just curious about what a CS degree at UniPD looks like from the inside, they can follow along at their own pace.
+The project lives at [stangauni.github.io](https://stangauni.github.io) and is maintained under the [`StangaUni`](https://github.com/StangaUni) GitHub organisation. Content is licensed under CC BY-NC 4.0.
 
 ## The site
 
-Built as a Jekyll static site deployed on GitHub Pages, with Tailwind CSS for styling. Content is organised by year and semester, with a dedicated page per course.
+Built with React, TypeScript, and Vite, with MDX for content. Tailwind CSS handles styling; KaTeX renders LaTeX math inline and in display blocks; React Syntax Highlighter covers code. Deployed automatically to GitHub Pages via GitHub Actions.
 
-The organisation and repository are currently private, pending a proper first release. Once the structure is solid and enough material is in place, everything goes public.
+Notes are organised by subject, each with its own changelog and a structured list of files grouped by type (summaries, exercises, extra material). A search bar on the home page filters by subject name; keyboard shortcut `Cmd/Ctrl+K` focuses it. Each note page gets an auto-generated table of contents and breadcrumb navigation.
+
+## Courses covered so far
+
+Three courses from year 1, semester 2 of the 2025/2026 academic year:
+
+**Algebra e Matematica Discreta** — 12 CFU. Topics span complex numbers, divisibility, polynomials, modular arithmetic, congruence systems, matrices, vector spaces, recurrence relations, and combinatorics. 23 notes and several exercise sets.
+
+**Programmazione** — 9 CFU. Fundamentals of imperative programming in C: algorithms, data types, control flow, functions, pointers, and arrays. 12 notes.
+
+**Sistemi Operativi** — 9 CFU. Modern operating system principles: processes, threads, scheduling, synchronisation, deadlock, memory management, file systems, Unix/Linux and Windows internals. 9 notes.
 
 ## Status
 
-Active and growing. The private GitHub organisation (`stangacourses`) already contains material from the courses completed so far. Public release is planned as soon as the site structure is polished and the initial content is consistent across all covered courses.
+Active and growing. 44 notes published so far across the three current courses, updated as lectures happen and material consolidates. Each course repository under `StangaUni` tracks changes in a dedicated changelog.
