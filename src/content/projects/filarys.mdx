@@ -1,7 +1,7 @@
 ---
 title: "Filarys — Agri-food Supply Chain Platform"
-excerpt: "Vertical software ecosystem for the Italian agri-food sector, covering the full supply chain from primary production to retail distribution. Designed around regulatory compliance, traceability, and precision agriculture."
-tags: ["C#", ".NET", "PostgreSQL", "PostGIS", "CQRS", "Clean Architecture", "Blockchain", "IoT", "GIS"]
+excerpt: "Vertical software ecosystem for the Italian agri-food sector, covering the full supply chain from primary production to retail distribution. Designed around regulatory compliance, traceability, and multi-tenant isolation."
+tags: ["C#", ".NET 9", "PostgreSQL", "CQRS", "Clean Architecture", "Multi-tenancy", "MediatR", "GDPR"]
 status: "in-progress"
 confidential: true
 date: "2025-12-01"
@@ -15,52 +15,60 @@ Filarys is designed to replace this fragmentation with a single, modular platfor
 
 ## Target users
 
-- **Primary producers** (farms, cooperatives) — field management, input tracking, yield recording
-- **Logistics operators** — transport scheduling, cold chain monitoring, delivery confirmation
-- **Processors and packagers** — lot tracking, quality control, transformation records
-- **Distributors and retailers** — order management, shelf traceability, recall handling
-- **Regulatory bodies** — audit-ready reports, immutable traceability records
+Supply chain participants are modelled as **organisations** with an explicit role:
+
+- **Primary** — farms, cooperatives: field management, input tracking, yield recording
+- **Secondary** — processors, packagers: lot tracking, quality control, transformation records
+- **Tertiary** — logistics operators, distributors, retailers: transport scheduling, delivery confirmation, shelf traceability
+
+Each organisation is an independent tenant on the platform. A cooperative and a logistics company can share traceability data without ever sharing a database row.
 
 ## Architecture
 
-The platform is built on a **Clean Architecture + CQRS** foundation using .NET 9 and MediatR. Every business operation is modelled as an explicit command or query, keeping domain logic fully decoupled from infrastructure concerns.
+The platform is built on a **Clean Architecture + CQRS** foundation using **.NET 9** and **MediatR**. Every business operation is modelled as an explicit command or query, keeping domain logic fully decoupled from infrastructure concerns.
 
-**Multi-tenancy** is implemented with a database-per-tenant strategy on PostgreSQL. Each tenant (e.g. a cooperative or a logistics company) gets an isolated schema, ensuring data segregation at the database level while sharing a single application layer.
+**Multi-tenancy** is implemented at the PostgreSQL session level. A custom EF Core `DbConnectionInterceptor` sets a session-scoped variable on every connection open, which Row-Level Security policies then use to filter all queries automatically. Tenant isolation is enforced at the database engine — not in application code — so no query can accidentally leak cross-tenant data.
 
-**Geospatial data** (field boundaries, transport routes, warehouse locations) is stored natively in PostgreSQL using the PostGIS extension. Field polygons are queryable by area, overlap, and proximity, enabling zone-based alerts and precision agriculture analytics.
+**Tenant resolution** happens in a dedicated ASP.NET Core middleware that runs after authentication. The middleware extracts the tenant identifier from the authenticated JWT and populates a scoped `ITenantContext`. A header-based fallback is available in development only and is stripped in production configuration.
 
-**IoT integration** uses an offline-first event bus (RabbitMQ / Kafka) to ingest telemetry from farm equipment, cold chain sensors, and weighing systems — even in low-connectivity rural environments. Events are buffered locally and synced when connectivity is restored.
+**Modular registration** uses an `IModelCreatingContributor` interface: each module contributes its own EF Core entity configurations independently. This allows modules to be added or removed without touching the shared `DbContext`.
 
-**Blockchain notarisation** creates immutable, timestamped anchors for critical supply chain events (harvest records, lot transfers, quality certifications) using a permissioned ledger. This provides a tamper-evident audit trail without requiring full on-chain storage of all data.
+**Cross-cutting infrastructure** is provided by an internal shared library (`StangaNetLib`) covering: structured observability (correlation IDs, request logging, security headers), distributed caching, rate limiting, idempotency key deduplication, JWT authentication, media storage, and GDPR consent middleware. Modules opt in by calling the relevant extension method in their `DependencyInjection` class.
 
 ## Modules
 
-| Module | Scope |
-|---|---|
-| **Field management** | Parcel registry with GIS boundaries, crop rotation history, input (fertiliser, pesticide) tracking per parcel |
-| **Compliance** | PAC (Common Agricultural Policy) subsidy eligibility, PSR rural development programme rules, Nitrati directive zone monitoring — all enforced at data entry |
-| **Traceability** | Lot lifecycle from harvest through processing, packaging and delivery; blockchain anchors at each handoff point |
-| **GIS / Remote sensing** | NDVI vegetation index computation from satellite imagery; anomaly detection for drought, disease, and frost stress |
-| **Machinery telemetry** | ISOBUS / ISOXML integration for real-time data from tractors and implements; fuel consumption, work area, and operation logs |
-| **Cold chain** | Temperature and humidity monitoring across transport legs; automatic alert escalation on threshold breach |
-| **Carbon farming** | CO₂ sequestration estimation per production cycle; carbon credit registry and footprint reporting per product lot |
-| **Audit & reporting** | Pre-built report templates for EU and Italian national authorities; exportable in PDF and XML formats |
+The backend is structured as a set of independently deployable modules, each owning its own domain, persistence configuration, and API surface.
 
-## Project management approach
+| Module | State | Scope |
+|---|---|---|
+| **Tenancy** | Active | Organisation lifecycle (create, suspend, exit), supply chain role assignment, tenant context propagation |
+| **Identity** | Active | OIDC/JWT authentication wired to the shared auth library; token validation and revocation |
+| **Tokens** | Scaffold | Token issuance and management (domain design complete) |
+| **AccessGrants** | Scaffold | Cross-tenant data sharing agreements (domain design complete) |
+| **Sectors** | Scaffold | Agri-food sector classification and regulatory zone mapping |
+| **Assets** | Scaffold | Document and media storage backed by `StangaNetLib.Media` |
+| **Import** | Scaffold | Structured data ingestion from external sources |
+| **Export** | Scaffold | Report generation and data export (PDF, XML) |
+| **PublicView** | Scaffold | Consumer-facing traceability endpoints (QR code scan flow) |
+| **Audit** | Scaffold | Immutable audit log for all domain events |
+| **GDPR** | Active | Consent management infrastructure wired to `StangaNetLib.Gdpr`; consent repository pluggable per deployment |
 
-Filarys is being developed as a solo project with a structured, documentation-first methodology:
+## Development approach
 
-1. **Domain modelling** — the entire bounded context map, aggregate design, and ubiquitous language are documented before any code is written. This reduces costly refactors during implementation.
-2. **Legal and regulatory review** — Italian agricultural law (D.Lgs. 99/2004, EU Regulation 2018/848), GDPR data residency requirements, and blockchain evidentiary admissibility are reviewed before the data model is finalised.
-3. **Test design upfront** — acceptance criteria and integration test scenarios are written alongside the specification, not after implementation.
-4. **Incremental module delivery** — modules are prioritised by dependency order. Field management and compliance ship first; traceability and IoT follow once the core domain is stable.
+Filarys is a solo project following a structured, documentation-first methodology:
+
+1. **Domain modelling first** — bounded context map, aggregate design, and ubiquitous language are fully documented before implementation begins, to avoid costly late-stage refactors.
+2. **Legal and regulatory review** — Italian agricultural law (D.Lgs. 99/2004, EU Reg. 2018/848), GDPR data residency requirements, and traceability evidentiary standards are reviewed before the data model is finalised.
+3. **Test suites alongside spec** — acceptance criteria and integration test skeletons are written at design time, not after implementation.
+4. **Dependency-ordered delivery** — Tenancy and Identity ship first (they underpin every other module); domain modules follow once the isolation layer is proven stable.
 
 ## Current status
 
-Core architecture, bounded context map, and the primary domain model are fully defined and documented. The platform is currently in:
+The core infrastructure layer is fully implemented and tested: multi-tenant PostgreSQL isolation, middleware pipeline, module registration pattern, and cross-cutting concerns. The Tenancy module has a complete domain model (Organisation aggregate with domain events, lifecycle transitions, and supply chain role assignment).
 
-- **Legal review** — data residency and blockchain evidentiary requirements under Italian and EU law
-- **Test design** — writing acceptance and integration test suites ahead of implementation
-- **Regulatory mapping** — translating PAC and PSR rule sets into enforceable domain invariants
+Remaining modules are structural scaffolding — the registration wiring, project references, and test harness are in place; domain logic implementation is the active next phase.
 
-Active development resumes once the review phase is complete.
+Parallel tracks currently open:
+- **Regulatory mapping** — translating PAC/PSR rule sets and Nitrati directive zones into enforceable domain invariants
+- **AccessGrants domain design** — modelling cross-tenant data sharing as a first-class aggregate
+- **Integration test suite** — writing scenario coverage for the Tenancy and Identity modules before expanding to others

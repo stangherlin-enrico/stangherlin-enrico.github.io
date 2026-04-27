@@ -1,0 +1,44 @@
+---
+title: "Finally."
+date: "2026-04-27"
+tags: ["personal", "projects"]
+excerpt: "Five months of domain modelling, legal review, regulatory research, and library-building. All of it pointing at one thing. Today I write the first real line of Filarys."
+---
+
+**What I'm recommending today** — [Dynamite · Taio Cruz](https://open.spotify.com/track/2CEgGE6aESpnmtfiZwYlbV?si=6017135a0573465a)
+
+---
+
+Five months. Give or take a few days. That is the distance between the moment I decided Filarys was real enough to build and the moment — today — when I actually begin building it.
+
+The number feels both short and very long depending on which end you are looking from.
+
+## What the five months were
+
+I want to be precise about this, because the temptation when writing a post like this is to cast the preparatory period as some heroic exercise in discipline. It was not. It was just necessary.
+
+The design work came first: bounded context maps, aggregate design, module boundaries, the ubiquitous language that would prevent the domain from rotting under the weight of ambiguous naming. This is the kind of work that is invisible to anyone who is not doing it, which makes it easy to dismiss — but when you are building a platform that touches Italian agricultural law, EU traceability regulation, and GDPR simultaneously, imprecision in the model costs real weeks later.
+
+Then came the StangaNetLib phase. The cross-cutting infrastructure that Filarys depends on needed to be finished before Filarys could begin in earnest. That took until March. By the time the libraries shipped, I had been staring at the Filarys architecture for two months without touching the actual repository.
+
+Then the legal and regulatory review. Italian agricultural law is not light reading. Neither is EU Regulation 2018/848, or the GDPR's data residency requirements as they apply to agricultural records. None of it was going to be clear enough to translate into domain invariants until I had actually read it. So I read it.
+
+## The specific frustration of not yet
+
+There is a particular quality to the impatience of not writing code when you have something you want to build. It is not boredom. It is more like having a conversation you know you need to have but cannot start yet because one of the other people has not arrived.
+
+Filarys has been the project I have thought about most consistently across these months — not StangaNetLib, not the site, not the other things in progress. The agri-food supply chain problem is genuinely interesting to me: it is technically complex, the domain is specific enough to be learnable, the regulatory constraints are hard in the right way, and the real-world impact of doing it well is not abstract. It is not another SaaS dashboard. There are actual fields and actual people at the end of it.
+
+That made the waiting harder. Necessary, but harder.
+
+## Today
+
+I am picking Dynamite for today specifically because it is not subtle about the energy it carries. Sometimes the accurate choice is the one that sounds exactly like how something feels rather than the one that sounds sophisticated. Five months of buildup and then: go.
+
+The first things to land are the parts already designed in full: the Tenancy module domain logic, the multi-tenant PostgreSQL isolation layer, the middleware pipeline. The scaffold is already there. The real work is filling it with domain invariants, tests, and the kind of decisions that only become clear once you are actually writing the code rather than reasoning about it in the abstract.
+
+There is also something that shifts when you stop designing and start implementing. Design is a mode of thinking about possibility. Implementation is a mode of thinking about reality. The two are not in conflict — the design is what makes the implementation go quickly — but they are different disciplines, and I have been ready to switch modes for a while now.
+
+The foundation is poured. The legal ground is surveyed. The libraries are shipped.
+
+Let us build something.
