@@ -1,18 +1,31 @@
 ---
 title: "StangaNetLib — .NET C# Library Ecosystem"
-excerpt: "Suite of 9 independent, composable .NET 8/9 libraries built with a Test-Driven Development approach, each fully covered by unit and integration tests. Designed to provide Clean Architecture building blocks with zero external dependencies at the core."
-tags: ["C#", ".NET", "TDD", "Clean Architecture", "Redis", "JWT", "GDPR"]
+excerpt: "Suite of 10 independent, composable .NET 8/9 libraries built with a Test-Driven Development approach, each fully covered by unit and integration tests. Designed to provide Clean Architecture building blocks with zero external dependencies at the core."
+tags: ["C#", ".NET", "TDD", "Clean Architecture", "Redis", "JWT", "Auth0", "GDPR"]
 status: "released"
 confidential: false
 openSource: true
 featured: true
 date: "2024-06-01"
 github: "https://github.com/StangaNet"
+changelog:
+  - version: "Concurrency 1.0.0"
+    type: "Feature"
+    date: "2026-04-29"
+    description: "New library: per-key async mutual exclusion (IKeyedLock with TryAcquireAsync timeout + Result<T> error), semaphore-based concurrency throttle (IAsyncThrottle), bounded channel work queues with non-blocking TryEnqueue (IWorkQueue<T>), cancellation-safe debouncer (IDebouncer), and lock-free atomic counters (IAtomicCounter)."
+  - version: "Auth 1.1.0"
+    type: "Feature"
+    date: "2026-04-29"
+    description: "Auth0 authentication mode: AddStangaNetLibAuth0 registers JWT Bearer with RS256 and automatic JWKS discovery via the Authority endpoint. IPasswordHasher is included; IJwtTokenGenerator is not registered (token generation stays on the Auth0 side)."
+  - version: "Auth 1.1.0"
+    type: "Feature"
+    date: "2026-04-29"
+    description: "Auth0 Management API: AddStangaNetLibAuth0ManagementService registers IAuth0ManagementService covering user lookup, role assignment/removal, block/unblock, deletion, and metadata update. Management tokens are acquired via client credentials and cached with automatic TTL expiry."
 ---
 
 ## Overview
 
-A suite of 9 independent, composable libraries for .NET 8 and .NET 9, developed with a strict Test-Driven Development approach. Each library has a focused responsibility, zero coupling to the others, and full unit + integration test coverage.
+A suite of 10 independent, composable libraries for .NET 8 and .NET 9, developed with a strict Test-Driven Development approach. Each library has a focused responsibility, zero coupling to the others, and full unit + integration test coverage.
 
 The goal is to encode hard-won architectural decisions into reusable, well-tested building blocks — so they don't need to be reinvented on every new project, and so that the assumptions behind them are explicit and verifiable.
 
@@ -20,15 +33,16 @@ All libraries are published as open-source repositories under the [StangaNet Git
 
 ## Library suite
 
-The ecosystem covers 9 foundational libraries. Every library depends on **StangaNetLib.Core**, which provides the shared abstractions, result primitives, and interfaces that keep all other libraries decoupled from infrastructure.
+The ecosystem covers 10 foundational libraries. Every library depends on **StangaNetLib.Core**, which provides the shared abstractions, result primitives, and interfaces that keep all other libraries decoupled from infrastructure.
 
 | Library | Responsibility |
 |---|---|
-| **StangaNetLib.Core** | Shared contracts, result primitives, and base abstractions. The single mandatory dependency for the entire ecosystem. |
+| **StangaNetLib.Core** | Foundation library: `Result<T>` with functional combinators (`Map`, `Bind`, `Match`), generic `Entity<TId>` with domain events and audit timestamps, `Guard.Against` clauses, Specification pattern, pagination, and `IUnitOfWork`. No external dependencies. |
+| **StangaNetLib.Concurrency** | Keyed async locks, semaphore-based throttle, bounded channel work queues, debouncer, and atomic counters — zero-allocation concurrency primitives built on `System.Threading.Channels` |
 | **StangaNetLib.Caching** | Unified caching abstraction over in-memory and Redis; swap-transparent at the composition root |
 | **StangaNetLib.Observability** | Structured logging with GDPR-safe automatic field masking — PII fields are redacted before they reach any sink |
 | **StangaNetLib.Media** | Image optimisation and multi-provider media storage (local filesystem, Azure Blob Storage) behind a unified interface |
-| **StangaNetLib.Auth** | Per-device JWT authentication with token rotation, refresh token family tracking, and server-side revocation |
+| **StangaNetLib.Auth** | JWT authentication (HMAC-SHA256 self-signed or Auth0 RS256/JWKS), per-device refresh token rotation, BCrypt password hashing, cache-backed token revocation blacklist, and Auth0 Management API integration |
 | **StangaNetLib.RateLimit** | Distributed rate limiting middleware with configurable policies per endpoint, user, or IP |
 | **StangaNetLib.Idempotency** | Request idempotency middleware — clients can safely retry operations without risk of duplicate side effects |
 | **StangaNetLib.Gdpr** | AES-256 pseudonymisation, audit trail, data export, and right-to-erasure flows compliant with GDPR requirements |

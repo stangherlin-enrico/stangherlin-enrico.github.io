@@ -335,17 +335,18 @@ export function CV() {
             <ProjectCard
               title="StangaNetLib — .NET C# Library Ecosystem"
               status="Released · Open source"
-              tags={['C#', '.NET', 'TDD', 'Clean Architecture', 'Redis', 'JWT', 'GDPR']}
+              tags={['C#', '.NET', 'TDD', 'Clean Architecture', 'Redis', 'JWT', 'Auth0', 'GDPR']}
             >
-              Suite of 9 independent, composable .NET 8 / .NET 9 libraries developed with a
+              Suite of 10 independent, composable .NET 8 / .NET 9 libraries developed with a
               Test-Driven Development approach, each fully covered by unit and integration tests.
               Designed to provide Clean Architecture building blocks with zero external dependencies
-              at the core. Covers: shared domain contracts and result primitives (Core), unified cache
-              abstraction (in-memory / Redis), structured observability with GDPR-safe log masking,
-              image optimisation and multi-provider media storage, per-device JWT authentication with
-              token rotation and revocation, distributed rate limiting, idempotency middleware, a full
-              GDPR compliance toolkit (AES-256 pseudonymisation, audit trail, data export/deletion),
-              and a generic multi-step content approval workflow.
+              at the core. Covers: shared domain contracts, result primitives and guard clauses (Core),
+              keyed locks, throttle and bounded work queues (Concurrency), unified cache abstraction
+              (in-memory / Redis), structured observability with GDPR-safe log masking, image
+              optimisation and multi-provider media storage, JWT authentication with per-device token
+              rotation, BCrypt password hashing and Auth0 integration, distributed rate limiting,
+              idempotency middleware, a full GDPR compliance toolkit (AES-256 pseudonymisation, audit
+              trail, data export/deletion), and a generic multi-step content approval workflow.
             </ProjectCard>
           </div>
         </Section>
