@@ -275,7 +275,7 @@ export function CV() {
             <h1 className="font-display text-4xl font-bold tracking-tight text-foreground">
               Enrico Stangherlin
             </h1>
-            <p className="mt-1 text-base font-medium text-primary">Software Engineer</p>
+            <p className="mt-1 text-base font-medium text-primary">Software Developer</p>
           </div>
           <DownloadDropdown />
         </div>
@@ -318,7 +318,7 @@ export function CV() {
         {/* ── Summary ── */}
         <Section title="Summary">
           <p className="leading-7 text-secondary-foreground">
-            Software Engineer with two years of professional experience across backend, mobile and
+            Software Developer with two years of professional experience across backend, mobile and
             frontend development, and an active Computer Science student at the University of Padua.
             I approach every problem with a critical, research-driven mindset — I want to understand
             deeply, not just deliver quickly. I have contributed to complex enterprise systems in C#,
@@ -337,16 +337,45 @@ export function CV() {
               status="Released · Open source"
               tags={['C#', '.NET', 'TDD', 'Clean Architecture', 'Redis', 'JWT', 'Auth0', 'GDPR']}
             >
-              Suite of 10 independent, composable .NET 8 / .NET 9 libraries developed with a
+              Suite of 14 independent, composable .NET 8 / .NET 9 libraries developed with a
               Test-Driven Development approach, each fully covered by unit and integration tests.
-              Designed to provide Clean Architecture building blocks with zero external dependencies
-              at the core. Covers: shared domain contracts, result primitives and guard clauses (Core),
-              keyed locks, throttle and bounded work queues (Concurrency), unified cache abstraction
-              (in-memory / Redis), structured observability with GDPR-safe log masking, image
-              optimisation and multi-provider media storage, JWT authentication with per-device token
-              rotation, BCrypt password hashing and Auth0 integration, distributed rate limiting,
-              idempotency middleware, a full GDPR compliance toolkit (AES-256 pseudonymisation, audit
-              trail, data export/deletion), and a generic multi-step content approval workflow.
+              Covers: shared domain contracts and result primitives (Core), async concurrency
+              primitives (Concurrency), unified cache abstraction with distributed locks (in-memory /
+              Redis), structured observability with GDPR-safe log masking, cryptography (PBKDF2,
+              HMAC, RSA), JWT authentication with per-device token rotation and Auth0 integration,
+              rate limiting and idempotency middleware, multi-channel notifications, background jobs
+              (in-memory / Hangfire), image optimisation with multi-provider storage (local / S3 /
+              Azure), unified blob storage, JSON Schema validation, multi-tenancy with five resolver
+              strategies, and a full GDPR compliance toolkit (AES-256 pseudonymisation, consent
+              management, audit trail, data export / erasure).
+            </ProjectCard>
+
+            <ProjectCard
+              title="Cross-platform Consumer Product"
+              status="In progress · Confidential"
+              tags={['C#', '.NET 9', 'Android', 'iOS', 'Blazor', 'SignalR', 'CQRS', 'Clean Architecture', 'GDPR']}
+            >
+              End-to-end consumer product conceived and built as sole developer across all layers:
+              .NET 9 backend (Clean Architecture, CQRS, REST + SignalR), native Android (Java /
+              Kotlin, MVVM, offline queue) and iOS (Swift / SwiftUI, Combine) clients with feature
+              parity, and a Blazor admin panel with live SignalR dashboards. Backend subsystems
+              include geolocation discovery, resumable media uploads, delta sync, feature flags,
+              push notifications (FCM / APNs), and GDPR compliance modelled as a first-class domain
+              concern. Currently in internal testing across all four surfaces.
+            </ProjectCard>
+
+            <ProjectCard
+              title="Filarys — Agri-food Supply Chain Platform"
+              status="In progress · Confidential"
+              tags={['C#', '.NET 9', 'PostgreSQL', 'CQRS', 'Clean Architecture', 'Multi-tenancy', 'MediatR', 'GDPR']}
+            >
+              Vertical platform for the Italian agri-food sector covering the full supply chain from
+              primary production to retail distribution. Built on Clean Architecture and CQRS with
+              MediatR. Multi-tenancy enforced at the PostgreSQL session level via Row-Level Security
+              and a custom EF Core connection interceptor — isolation guaranteed at the database
+              engine, not in application code. Modular registration pattern allows domain modules
+              (Tenancy, Identity, AccessGrants, traceability, compliance) to be added independently.
+              Cross-cutting concerns supplied by StangaNetLib.
             </ProjectCard>
           </div>
         </Section>
@@ -559,7 +588,7 @@ export function CV() {
             <figcaption className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
               <div>
                 <p className="font-semibold text-foreground">Emanuele Furlan</p>
-                <p className="text-xs text-muted-foreground">Software Craftsman Freelance</p>
+                <p className="text-xs text-muted-foreground">Consulente software - .NET Senior Developer</p>
               </div>
               <div className="flex items-center gap-4">
                 <button

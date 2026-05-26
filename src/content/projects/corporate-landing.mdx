@@ -1,7 +1,7 @@
 ---
 title: "Corporate Landing Page"
-excerpt: "Landing page for an Italian company, developed independently. Name and domain withheld. Built with Angular, focused on performance, accessibility, and conversion."
-tags: ["Angular", "TypeScript", "Tailwind CSS"]
+excerpt: "Institutional website for an Italian company, developed independently across three iterations — from a containerised Angular stack to a multilingual static site with headless CMS and automated deployment. Company name and domain withheld."
+tags: ["Angular", "Astro", "TypeScript", "Node.js", "Docker"]
 status: "in-progress"
 confidential: true
 featured: false
@@ -10,14 +10,26 @@ date: "2026-03-23"
 
 ## Context
 
-A landing page for an Italian company, conceived and built entirely by me — from initial design to production deployment. The company name and domain are withheld until public release.
+An institutional website for an Italian company, conceived and built entirely by me — from initial design to production deployment. The company name and domain are withheld.
 
-The goal is a fast, accessible, and conversion-focused single-page site that clearly communicates the company's value proposition and drives the target action.
+The project went through three distinct iterations, each replacing the previous one as requirements and hosting constraints evolved.
 
-## Stack
+## V1 — Angular + Node.js, containerised
 
-Built with Angular and TypeScript, styled with Tailwind CSS. The stack was chosen for its structure and scalability: even a landing page benefits from a disciplined component model when content evolves frequently.
+The first version was a full-stack containerised application. The frontend was built with Angular 17 and TypeScript, with Angular SSR enabled for static prerendering. The backend was a Node.js 20 / Express 5 API whose sole responsibility was handling the contact form: reCAPTCHA v3 verification, rate limiting (5 requests per 15 minutes per IP), and email delivery via Nodemailer with HTML-escaped input to prevent XSS. Both services were packaged as Docker containers behind a Caddy reverse proxy, with nginx handling internal routing.
 
-## Current status
+## V2 — Static archive
 
-Early development. Project is currently in progress.
+An intermediate snapshot of compiled public pages, kept as a reference before the architecture changed.
+
+## V3 — Astro + Sveltia CMS (current)
+
+The current version is a fully static site generated with Astro 4 and TypeScript, deployed to shared hosting via GitHub Actions and FTP. The switch from a containerised stack was driven by hosting constraints: the target environment runs PHP on Aruba, with no support for Docker or persistent Node.js processes.
+
+**Content management.** A Sveltia CMS instance at `/admin` allows non-technical editing of fleet and team data directly from the browser. Content is stored as JSON files in Astro Content Collections with Zod schema validation; saving triggers a Git commit, which kicks off the deployment pipeline automatically.
+
+**Multilingual.** The site is available in Italian, English, and French. All copy is centralised in per-language JSON files; language switching is handled client-side via `localStorage`.
+
+**Contact form.** A PHP handler processes form submissions server-side using the Brevo SMTP API. A honeypot field provides anti-spam protection without requiring a third-party challenge.
+
+**Other features.** Google Analytics 4 (loaded post-cookie-consent), auto-generated sitemap, Open Graph tags, custom 404, and a fleet showcase with per-vehicle specs and category filtering.

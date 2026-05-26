@@ -51,7 +51,7 @@ export function About() {
         <Section title="Who I am">
           <div className="space-y-4 text-base leading-7 text-secondary-foreground">
             <p>
-              I'm <strong className="text-foreground">Enrico Stangherlin</strong>, a software engineer
+              I'm <strong className="text-foreground">Enrico Stangherlin</strong>, a software developer
               based in {profile.location}. I have two years of professional experience across backend,
               mobile and frontend development, and I'm currently studying Computer Science at the
               University of Padua.
@@ -59,8 +59,9 @@ export function About() {
             <p>
               I approach every problem with a research-driven mindset: I want to understand deeply,
               not just deliver quickly. I've contributed to enterprise systems in C#, Java and Swift,
-              and I independently design and build high-complexity projects — from .NET library
-              ecosystems to full-stack consumer products.
+              and I independently design and build high-complexity projects — from a 14-library .NET
+              ecosystem to full-stack consumer products, an agri-food supply chain platform, and an
+              open-source archive of my university coursework.
             </p>
             <p>
               I look for environments where technology is a lever for innovation and accessibility,

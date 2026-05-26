@@ -17,18 +17,26 @@ The project lives at [stangauni.github.io](https://stangauni.github.io) and is m
 
 Built with React, TypeScript, and Vite, with MDX for content. Tailwind CSS handles styling; KaTeX renders LaTeX math inline and in display blocks; React Syntax Highlighter covers code. Deployed automatically to GitHub Pages via GitHub Actions.
 
-Notes are organised by subject, each with its own changelog and a structured list of files grouped by type (summaries, exercises, extra material). A search bar on the home page filters by subject name; keyboard shortcut `Cmd/Ctrl+K` focuses it. Each note page gets an auto-generated table of contents and breadcrumb navigation.
+Notes are organised by subject, each with its own changelog and a structured list of files grouped by type (summaries, exercises, extra material). Each note page gets an auto-generated table of contents and breadcrumb navigation.
 
-## Courses covered so far
+## Courses covered
 
-Three courses from year 1, semester 2 of the 2025/2026 academic year:
+Six courses across both semesters of Year 1 (academic year 2025/2026).
 
-**Algebra e Matematica Discreta** — 12 CFU. Topics span complex numbers, divisibility, polynomials, modular arithmetic, congruence systems, matrices, vector spaces, recurrence relations, and combinatorics. 23 notes and several exercise sets.
+### Year 1 — Semester 1 (complete)
 
-**Programmazione** — 9 CFU. Fundamentals of imperative programming in C: algorithms, data types, control flow, functions, pointers, and arrays. 12 notes.
+- **Analisi Matematica** — 16 summaries
+- **Architettura degli Elaboratori** — 14 summaries
+- **Logica** — 8 summaries
 
-**Sistemi Operativi** — 9 CFU. Modern operating system principles: processes, threads, scheduling, synchronisation, deadlock, memory management, file systems, Unix/Linux and Windows internals. 9 notes.
+### Year 1 — Semester 2 (in progress)
 
-## Status
+- **Algebra e Matematica Discreta** — 21 summaries
+- **Programmazione** — 17 summaries
+- **Sistemi Operativi** — 9 summaries
 
-Active and growing. 44 notes published so far across the three current courses, updated as lectures happen and material consolidates. Each course repository under `StangaUni` tracks changes in a dedicated changelog.
+## What's next
+
+The current site remains live on GitHub Pages, but it runs against the constraints of a static host: no server-side logic, no dynamic content, no way to serve richer features at scale.
+
+To remove those limits, I'm building a dedicated platform — **UniShelf** — using .NET Blazor and a custom API layer, built directly on top of [my own libraries](/portfolio/stanga-net-lib). The goal is to keep the open-source archive intact while offering a hosted version that is accessible to a wider audience, without depending on GitHub's infrastructure or its constraints.
