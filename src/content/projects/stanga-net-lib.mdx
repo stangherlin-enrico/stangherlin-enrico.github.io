@@ -1,47 +1,24 @@
 ---
 title: "StangaNetLib — .NET C# Library Ecosystem"
-excerpt: "Suite of 14 independent, composable .NET 8/9 libraries built with a Test-Driven Development approach, each fully covered by unit and integration tests. Designed to provide Clean Architecture building blocks with zero external dependencies at the core."
-tags: ["C#", ".NET", "TDD", "Clean Architecture", "Redis", "JWT", "Auth0", "GDPR"]
+excerpt: "Suite of 23 independent, composable .NET 8/9 libraries built with a Test-Driven Development approach, each fully covered by unit and integration tests. Designed to provide Clean Architecture building blocks spanning concurrency, caching, auth, search, observability, GDPR, and more."
+tags: ["C#", ".NET", "TDD", "Clean Architecture", "Redis", "JWT", "Auth0", "GDPR", "Elasticsearch", "RabbitMQ"]
 status: "released"
 confidential: false
 openSource: true
 featured: true
 date: "2024-06-01"
 github: "https://github.com/StangaNet"
-changelog:
-  - version: "Concurrency 1.0.0"
-    type: "Feature"
-    date: "2026-04-29"
-    description: "New library: per-key async mutual exclusion (IKeyedLock with TryAcquireAsync timeout + Result<T> error), semaphore-based concurrency throttle (IAsyncThrottle), bounded channel work queues with non-blocking TryEnqueue (IWorkQueue<T>), cancellation-safe debouncer (IDebouncer), and lock-free atomic counters (IAtomicCounter)."
-  - version: "Auth 1.1.0"
-    type: "Feature"
-    date: "2026-04-29"
-    description: "Auth0 authentication mode: AddStangaNetLibAuth0 registers JWT Bearer with RS256 and automatic JWKS discovery via the Authority endpoint. IPasswordHasher is included; IJwtTokenGenerator is not registered (token generation stays on the Auth0 side)."
-  - version: "Auth 1.1.0"
-    type: "Feature"
-    date: "2026-04-29"
-    description: "Auth0 Management API: AddStangaNetLibAuth0ManagementService registers IAuth0ManagementService covering user lookup, role assignment/removal, block/unblock, deletion, and metadata update. Management tokens are acquired via client credentials and cached with automatic TTL expiry."
-  - version: "Caching 2.0.0"
-    type: "Breaking"
-    date: "2026-04-29"
-    description: "Added IDistributedLockService with TryAcquire and WaitAndAcquire (polling with timeout), backed by SemaphoreSlim (in-memory) or Redis distributed locks. Introduced NullDistributedLockService for test isolation. Now depends on StangaNetLib.Concurrency."
-  - version: "Observability 2.0.0"
-    type: "Breaking"
-    date: "2026-04-29"
-    description: "Added ETagMiddleware with SHA-256-based ETag generation and 304 Not Modified support (opt-out via [NoETag]). Added ILogMaskingService with automatic PII redaction for email addresses, IP addresses, phone numbers, and names before log sink emission."
-  - version: "Media 2.0.0"
-    type: "Breaking"
-    date: "2026-04-29"
-    description: "Added AzureBlobPhotoStorageService as a production-grade IPhotoStorageService implementation alongside the existing local filesystem provider. Added NullPhotoStorageService for test isolation."
 ---
 
 ## Overview
 
-A suite of 14 independent, composable libraries for .NET 8 and .NET 9, developed with a strict Test-Driven Development approach. Each library has a focused responsibility, zero coupling to the others, and full unit and integration test coverage.
+A suite of 23 independent, composable libraries for .NET 8 and .NET 9, developed with a strict Test-Driven Development approach. Each library has a focused responsibility, zero coupling to the others, and full unit and integration test coverage.
 
 The goal is to encode hard-won architectural decisions into reusable, well-tested building blocks — so they don't need to be reinvented on every new project, and so that the assumptions behind them are explicit and verifiable.
 
 All libraries are published as open-source repositories under the [StangaNet GitHub organisation](https://github.com/StangaNet) and distributed via GitHub Packages.
+
+> **Note:** All repositories are currently private and NuGet packages have been temporarily removed while a major refactor of the entire suite is underway. Repositories and packages will be restored once the process is complete.
 
 ## Library suite
 
@@ -51,18 +28,27 @@ Every library depends on **StangaNetLib.Core**, which provides the shared abstra
 |---|---|
 | **StangaNetLib.Core** | Foundation: `Result<T>` with 14 functional combinators (`Map`, `Bind`, `Match`, `TapError`, …), `Entity<TId>` with domain events and audit timestamps, `Guard.Against` clauses, Specification pattern, pagination, `IRepository`, and `IUnitOfWork`. No external dependencies. |
 | **StangaNetLib.Concurrency** | Per-key async mutual exclusion (`IKeyedLock`), semaphore-based throttle (`IAsyncThrottle`), bounded channel work queues (`IWorkQueue<T>`), cancellation-safe debouncer (`IDebouncer`), and lock-free 64-bit atomic counters (`IAtomicCounter`). Built on `System.Threading.Channels`. |
+| **StangaNetLib.Resilience** | Retry, circuit-breaker, and timeout policies via `Microsoft.Extensions.Resilience`; all outcomes surfaced as `Result<T>` so callers never deal with exceptions at the boundary. |
 | **StangaNetLib.Caching** | Unified caching abstraction (`ICacheService`) over in-memory and Redis, with thundering-herd protection, prefix-based group invalidation, and a distributed lock service (`IDistributedLockService`). Null implementation included for test isolation. |
+| **StangaNetLib.Storage** | Unified blob storage abstraction (`IBlobStorageService`) over local filesystem, AWS S3, and Azure Blob Storage. Covers upload, download, delete, list, copy, move, container lifecycle, and pre-signed URLs for client-side upload and download. |
 | **StangaNetLib.Cryptography** | SHA-256/384/512 hashing with constant-time verification, HMAC-SHA signing, PBKDF2 (600 000 iterations, OWASP-aligned) and HKDF key derivation, RSA-2048 key pair generation, and a secure token generator (URL-safe base64, hex, OTP, UUID v4). |
+| **StangaNetLib.Jobs** | Background job scheduling — fire-and-forget, delayed, point-in-time, and recurring (cron via Cronos) — with a DI-friendly `IBackgroundJob<TArgs>` contract. In-memory backend for development; Hangfire and Quartz adapters for production. |
+| **StangaNetLib.EventBus** | Publish/subscribe event bus with in-memory and RabbitMQ backends. |
+| **StangaNetLib.SchemaRegistry** | JSON Schema (draft 2020-12) registration and validation by subject and version, with in-memory or HTTP remote registry. Returns structured validation errors. |
 | **StangaNetLib.Auth** | JWT authentication — HMAC-SHA256 self-signed or Auth0 RS256/JWKS — with per-device refresh token rotation, BCrypt + SHA-512 pre-hashing for passwords longer than 72 bytes, cache-backed token revocation blacklist, and Auth0 Management API integration (user management, roles, M2M token caching). |
 | **StangaNetLib.Observability** | Correlation ID generation and propagation, structured request logging, global exception handling with JSON error responses, security headers middleware (CSP, HSTS, X-Frame-Options), ETag support with SHA-256 hashing, and PII masking (email, IP, phone, name) before log sink emission. |
-| **StangaNetLib.RequestProtection** | Fixed-window rate limiting with configurable policies scoped to IP, user, global, or API key (`[RateLimit]` attribute), and request idempotency via `Idempotency-Key` header with concurrent duplicate detection (409 Conflict). |
-| **StangaNetLib.Gdpr** | AES-256-GCM pseudonymisation (reversible), SHA-256 anonymisation (irreversible), immutable consent audit trail, `[RequireConsent]` attribute and middleware for endpoint gating, and data export/erasure contracts (Art. 15 and Art. 17). |
+| **StangaNetLib.RequestProtection** | Fixed-window rate limiting with configurable policies scoped to IP, user, global, or API key (`[RateLimit]` attribute), and request idempotency via `Idempotency-Key` header with concurrent duplicate detection (409 Conflict). Backed by `StangaNetLib.Caching`. |
 | **StangaNetLib.Tenancy** | Multi-tenancy resolution with five configurable strategies — HTTP header, subdomain, URL path segment, JWT claim, and query string — with priority ordering, per-tenant connection strings, and `ITenantStore` extensibility. |
 | **StangaNetLib.Notifications** | Multi-channel notification dispatch (email, push, in-app) with a `{{Placeholder}}`-based template engine, delivery tracking, and retry policy. In-memory provider included; SMTP, Firebase, and persistence adapters are supplied by the consuming project. |
-| **StangaNetLib.Jobs** | Background job scheduling — fire-and-forget, delayed, point-in-time, and recurring (cron via Cronos) — with a DI-friendly `IBackgroundJob<TArgs>` contract. In-memory backend for development; Hangfire adapter for production. |
+| **StangaNetLib.FeatureFlags** | Feature flag abstraction with in-memory and configuration-backed providers, percentage rollout, and tenant awareness. |
+| **StangaNetLib.FeatureFlags.Tenancy** | Bridge between `StangaNetLib.FeatureFlags` and `StangaNetLib.Tenancy` for per-tenant flag resolution. |
+| **StangaNetLib.Audit** | Immutable audit trail for ASP.NET Core with query support, retention policies, and automatic HTTP action auditing. |
+| **StangaNetLib.Gdpr** | AES-256-GCM pseudonymisation (reversible), SHA-256 anonymisation (irreversible), immutable consent audit trail, `[RequireConsent]` attribute and middleware for endpoint gating, and data export/erasure contracts (Art. 15 and Art. 17). |
+| **StangaNetLib.ContentFlow** | Content lifecycle state machine (Draft → Pending → Approved → Published → Revoked) with background scheduler. |
 | **StangaNetLib.Media** | Multi-variant JPEG generation (thumbnail 150 px, medium 400 px, large 800 px, original) with optional WebP conversion, magic-byte file validation, and a unified `IPhotoStorageService` over local filesystem or Azure Blob Storage. |
-| **StangaNetLib.Storage** | Unified blob storage abstraction (`IBlobStorageService`) over local filesystem, AWS S3, and Azure Blob Storage. Covers upload, download, delete, list, copy, move, container lifecycle, and pre-signed URLs for client-side upload and download. |
-| **StangaNetLib.SchemaRegistry** | JSON Schema (draft 2020-12) registration and validation by subject and version, with in-memory or HTTP remote registry. Returns structured validation errors. |
+| **StangaNetLib.Search** | Unified search abstraction with BM25 scoring, field filters, pagination, sorting, and facets. In-memory backend included. |
+| **StangaNetLib.Search.Elasticsearch** | Elasticsearch 8.x backend provider for `StangaNetLib.Search` via `Elastic.Clients.Elasticsearch`. |
+| **StangaNetLib.Search.Meilisearch** | Meilisearch backend provider for `StangaNetLib.Search`. |
 
 ## Documentation site
 
