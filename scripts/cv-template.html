@@ -23,7 +23,8 @@
   @page { size: A4 portrait; margin: 0; }
 
   html, body {
-    width: 210mm;
+    width: 100%;
+    overflow: hidden;
     font-family: 'Segoe UI', Arial, sans-serif;
     font-size: 8pt;
     line-height: 1.4;
@@ -35,7 +36,7 @@
 
   /* ── Page (natural height, no forced stretch) ────────────────────── */
   .page {
-    width: 210mm;
+    width: 100%;
     display: flex;
     flex-direction: column;
   }
@@ -321,8 +322,8 @@
   /* ── Certifications ──────────────────────────────────────────────── */
   .cert-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5mm 5mm;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5mm 4mm;
   }
 
   .cert-title { font-size: 7.5pt; font-weight: 600; color: var(--gray-900); line-height: 1.3; }
@@ -624,6 +625,10 @@
       <div class="row-label"><span class="label-text">Additional<br>Information</span></div>
       <div class="row-content">
         <div class="cert-grid">
+          <div>
+            <div class="cert-title">Soft skills per lo sviluppo personale e professionale</div>
+            <div class="cert-meta">Università degli Studi di Padova · 06/2026</div>
+          </div>
           <div>
             <div class="cert-title">English B2 — Reading &amp; Listening</div>
             <div class="cert-meta">Università degli Studi di Padova · CLA · 11/2025</div>

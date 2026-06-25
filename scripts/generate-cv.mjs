@@ -136,6 +136,7 @@ async function injectData(page) {
 // ── PDF generation ─────────────────────────────────────────────────────────
 const pdfOptions = {
   format: 'A4',
+  preferCSSPageSize: true,
   printBackground: true,
   margin: { top: 0, right: 0, bottom: 0, left: 0 },
 }
@@ -144,11 +145,16 @@ console.log('Launching browser...')
 const browser = await puppeteer.launch({
   executablePath: chromePath,
   headless: true,
-  args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  args: ['--no-sandbox', '--disable-setuid-sandbox', '--hide-scrollbars'],
 })
+
+// A4 width in px at 96 dpi: 210mm × (96 / 25.4) ≈ 794px
+const A4_VIEWPORT = { width: 794, height: 1123, deviceScaleFactor: 1 }
 
 // Colour version
 const pageColor = await browser.newPage()
+await pageColor.setViewport(A4_VIEWPORT)
+await pageColor.emulateMediaType('print')
 await pageColor.goto(htmlUrl, { waitUntil: 'networkidle0' })
 await injectData(pageColor)
 console.log('Generating colour PDF...')
@@ -158,6 +164,8 @@ console.log('  ✓ Enrico_Stangherlin_CV.pdf')
 // BW version (optional)
 if (withBW) {
   const pageBW = await browser.newPage()
+  await pageBW.setViewport(A4_VIEWPORT)
+  await pageBW.emulateMediaType('print')
   await pageBW.goto(htmlUrl, { waitUntil: 'networkidle0' })
   await injectData(pageBW)
   await pageBW.addStyleTag({ content: BW_CSS })

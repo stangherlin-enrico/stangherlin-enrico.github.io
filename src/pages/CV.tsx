@@ -525,6 +525,12 @@ export function CV() {
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               {
+                title: 'Soft skills per lo sviluppo personale e professionale',
+                issuer: 'Università degli Studi di Padova',
+                date: 'Jun 2026',
+                href: 'https://openbadges.bestr.it/public/assertions/TsZUExRuRjKHs2WB6tHZQQ',
+              },
+              {
                 title: 'English B2 — Reading & Listening',
                 issuer: 'Università degli Studi di Padova · CLA',
                 date: 'Nov 2025',
