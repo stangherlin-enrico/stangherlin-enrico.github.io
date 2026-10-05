@@ -49,10 +49,11 @@ if (!chromePath) {
 
 // ── BW CSS ─────────────────────────────────────────────────────────────────
 const BW_CSS = `
-  /* ── Header banner: navy pieno → bianco con bordo inferiore ── */
+  /* ── Header banner: navy pieno → bianco con linea inferiore ── */
+  /* box-shadow non altera il box model (a differenza di border) */
   .eu-banner {
     background: #ffffff !important;
-    border-bottom: 2px solid #111 !important;
+    box-shadow: 0 2px 0 0 #111 !important;
     color: #111 !important;
   }
   .eu-label  { color: #555 !important; opacity: 1 !important; }
@@ -63,10 +64,10 @@ const BW_CSS = `
   .eu-banner svg rect { fill: #ffffff !important; stroke: #ccc !important; stroke-width: 1 !important; }
   .eu-banner svg text { fill: #555 !important; }
 
-  /* ── Contact strip: blu pieno → bianco con bordo inferiore ── */
+  /* ── Contact strip: blu pieno → bianco con linea inferiore ── */
   .contact-strip {
     background: #ffffff !important;
-    border-bottom: 1px solid #ccc !important;
+    box-shadow: 0 1px 0 0 #ccc !important;
     color: #222 !important;
   }
   .ci { opacity: 1 !important; color: #222 !important; }
@@ -74,18 +75,29 @@ const BW_CSS = `
   /* ── Section label column: già chiara, ok — solo testo più scuro ── */
   .label-text { color: #222 !important; }
 
-  /* ── Skill tags: blu chiaro → bianco con bordo ── */
-  .stag      { background: #fff !important; color: #222 !important; border: 0.5px solid #aaa !important; }
-  .stag.soft { background: #fff !important; color: #444 !important; border: 0.5px solid #ccc !important; }
+  /* ── Skill tags: blu chiaro → bianco con contorno (outline non occupa spazio) ── */
+  .stag {
+    background: #fff !important;
+    color: #222 !important;
+    outline: 0.5px solid #aaa !important;
+    outline-offset: -0.5px !important;
+  }
+  .stag.soft {
+    background: #fff !important;
+    color: #444 !important;
+    outline: 0.5px solid #ccc !important;
+    outline-offset: -0.5px !important;
+  }
 
-  /* ── EQF badge: blu chiaro → bordo grigio ── */
+  /* ── EQF badge: blu chiaro → grigio ── */
   .eqf-badge { background: #f0f0f0 !important; color: #222 !important; }
 
-  /* ── CEFR table: header navy → grigio chiaro con bordo ── */
+  /* ── CEFR table: header navy → grigio chiaro (outline non altera dimensioni) ── */
   .cefr-table thead tr:first-child th {
     background: #e8e8e8 !important;
     color: #111 !important;
-    border: 0.5px solid #aaa !important;
+    outline: 0.5px solid #aaa !important;
+    outline-offset: -0.5px !important;
   }
   .cefr-table thead tr:last-child th {
     background: #f5f5f5 !important;
